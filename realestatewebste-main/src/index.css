@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    @apply font-sans bg-[#050e1a] text-white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    cursor: none;
+  }
+  * { box-sizing: border-box; }
+
+  /* ── Brand font classes ── */
+  /* Main text: Cinzel Bold (all headings, brand name, section titles) */
+  h1, h2, h3, h4, h5, h6,
+  .font-serif {
+    font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
+  }
+
+  /* Tagline / italics: Monotype Corsiva → fallback chain */
+  .font-corsiva, .tagline {
+    font-family: 'Monotype Corsiva', 'Brush Script MT', 'Palatino Linotype', cursive;
+    font-style: italic;
+  }
+}
+
+/* ── Custom cursor ───────────────────────────────────── */
+.cursor-dot {
+  width: 8px; height: 8px;
+  background: #2d9496;
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s ease;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1.5px solid rgba(45,148,150,0.5);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.15s ease, width 0.2s, height 0.2s, border-color 0.2s;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring.hovered {
+  width: 56px; height: 56px;
+  border-color: rgba(45,148,150,0.9);
+  background: rgba(45,148,150,0.05);
+}
+
+/* ── Scroll progress ─────────────────────────────────── */
+.scroll-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #2d9496, #4ecdc4);
+  z-index: 9997;
+  transform-origin: left;
+  transition: none;
+}
+
+/* ── Keyframes ───────────────────────────────────────── */
+@keyframes floatUp {
+  0%   { transform: translateY(0)    scale(1);   opacity: 0.6; }
+  100% { transform: translateY(-120px) scale(0);  opacity: 0; }
+}
+@keyframes pulse-glow {
+  0%,100% { box-shadow: 0 0 0 0 rgba(45,148,150,0.4); }
+  50%      { box-shadow: 0 0 30px 8px rgba(45,148,150,0.2); }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes tileGlow {
+  0%,100% { opacity: 0.03; }
+  50%      { opacity: 0.12; }
+}
+@keyframes buildRise {
+  from { transform: scaleY(0); opacity: 0; }
+  to   { transform: scaleY(1); opacity: 1; }
+}
+@keyframes scanDown {
+  0%   { top: -10%; }
+  100% { top: 110%; }
+}
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeSlideLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeSlideRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes rotateIn {
+  from { opacity: 0; transform: rotate(-8deg) scale(0.9); }
+  to   { opacity: 1; transform: rotate(0)    scale(1); }
+}
+@keyframes lineGrow {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+@keyframes counterUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+@keyframes windowBlink {
+  0%,100% { opacity: 0.15; }
+  50%      { opacity: 0.6; }
+}
+@keyframes diagonalSlide {
+  from { transform: translateX(-100%) skewX(-15deg); }
+  to   { transform: translateX(300%)  skewX(-15deg); }
+}
+
+/* ── Scroll reveal ───────────────────────────────────── */
+.sr { opacity: 0; transform: translateY(32px); transition: opacity 0.8s cubic-bezier(.16,1,.3,1), transform 0.8s cubic-bezier(.16,1,.3,1); }
+.sr.in { opacity: 1; transform: translateY(0); }
+.sr-l { opacity: 0; transform: translateX(-40px); transition: opacity 0.8s cubic-bezier(.16,1,.3,1), transform 0.8s cubic-bezier(.16,1,.3,1); }
+.sr-l.in { opacity: 1; transform: translateX(0); }
+.sr-r { opacity: 0; transform: translateX(40px); transition: opacity 0.8s cubic-bezier(.16,1,.3,1), transform 0.8s cubic-bezier(.16,1,.3,1); }
+.sr-r.in { opacity: 1; transform: translateX(0); }
+.sr-scale { opacity: 0; transform: scale(0.9); transition: opacity 0.7s ease, transform 0.7s ease; }
+.sr-scale.in { opacity: 1; transform: scale(1); }
+
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.18s; }
+.delay-3 { transition-delay: 0.26s; }
+.delay-4 { transition-delay: 0.34s; }
+.delay-5 { transition-delay: 0.42s; }
+.delay-6 { transition-delay: 0.50s; }
+
+/* ── Typography utilities ────────────────────────────── */
+.text-teal { color: #2d9496; }
+.text-teal-light { color: #4ecdc4; }
+.bg-teal { background: #2d9496; }
+.bg-teal-dark { background: #1e5f61; }
+.bg-dark { background: #050e1a; }
+.bg-dark-2 { background: #0a1930; }
+.bg-dark-3 { background: #0d2340; }
+
+/* ── Gradient text ───────────────────────────────────── */
+.grad-text {
+  background: linear-gradient(135deg, #2d9496 0%, #4ecdc4 50%, #2d9496 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+/* ── Teal gradient button/bg ─────────────────────────── */
+.teal-btn {
+  background: linear-gradient(135deg, #2d9496 0%, #1e5f61 100%);
+  position: relative;
+  overflow: hidden;
+}
+.teal-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #4ecdc4 0%, #2d9496 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.teal-btn:hover::after { opacity: 1; }
+.teal-btn > * { position: relative; z-index: 1; }
+
+/* ── Glass card ──────────────────────────────────────── */
+.glass {
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(45,148,150,0.15);
+}
+.glass:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(45,148,150,0.35);
+}
+
+/* ── Teal glow border ────────────────────────────────── */
+.glow-border {
+  border: 1px solid transparent;
+  background: linear-gradient(#0a1930, #0a1930) padding-box,
+              linear-gradient(135deg, #2d9496, transparent, #2d9496) border-box;
+}
+
+/* ── Project card 3D ─────────────────────────────────── */
+.proj-card { transition: transform 0.4s ease, box-shadow 0.4s ease; transform-style: preserve-3d; }
+.proj-card:hover { box-shadow: 0 32px 64px rgba(0,0,0,0.4), 0 0 0 1px rgba(45,148,150,0.2); }
+
+/* ── Diagonal section divider ────────────────────────── */
+.clip-diagonal { clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%); }
+.clip-diagonal-rev { clip-path: polygon(0 12%, 100% 0, 100% 100%, 0 100%); }
+
+/* ── Window grid (building facade) ──────────────────── */
+.building-grid {
+  background-image:
+    linear-gradient(rgba(45,148,150,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45,148,150,0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── Scanline effect ─────────────────────────────────── */
+.scanline::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(45,148,150,0.4), transparent);
+  animation: scanDown 4s linear infinite;
+  pointer-events: none;
+}
+
+/* ── Marquee ─────────────────────────────────────────── */
+.marquee-track { animation: marquee 25s linear infinite; white-space: nowrap; }
+.marquee-track:hover { animation-play-state: paused; }
+
+/* ── Number clip ─────────────────────────────────────── */
+.num-clip { overflow: hidden; }
+.num-inner { animation: counterUp 0.6s cubic-bezier(.16,1,.3,1) forwards; }
+
+/* ── Scrollbar ───────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #050e1a; }
+::-webkit-scrollbar-thumb { background: #2d9496; border-radius: 2px; }
