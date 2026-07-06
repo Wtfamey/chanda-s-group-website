@@ -13,7 +13,6 @@ import { seedListings, saveContactMessage } from './supabaseService';
 
 /* ─────────────── ASSET IMPORTS ──────────────────────── */
 import logoPng        from './assets/logopng.png';          // 1536×1024 — THE correct logo
-import logoSquare     from './assets/logo.png';             // 1080×1080 — square icon for favicon/small use
 // Team — portrait-oriented
 import foundersImg    from './assets/team/founders.jpg';
 import vishalChandaImg from './assets/team/vishal-chanda.jpg';
@@ -123,21 +122,17 @@ function Navbar({ onOpenPortal }: { onOpenPortal: () => void }) {
     document.getElementById(id.toLowerCase())?.scrollIntoView({ behavior: 'smooth' });
   };
   return (
-    <nav className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled ? 'bg-[#050e1a]/97 backdrop-blur-xl border-b border-white/5 shadow-2xl' : ''}`}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between h-24">
+    <nav className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled ? 'bg-[#050e1a]/97 backdrop-blur-xl border-b border-white/5 shadow-2xl' : 'bg-[#050e1a]/90 sm:bg-transparent'}`}>
+      <div className="max-w-7xl mx-auto px-4 lg:px-10 flex items-center justify-between h-16 sm:h-24">
         {/* Logo — logopng.png, wide wordmark */}
         <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center group flex-shrink-0">
-          {/* Wide PNG logo — desktop */}
+          {/* Wide PNG logo — responsive */}
           <img
             src={logoPng}
             alt="Chanda's Group — Dreams Abode"
-            className="hidden sm:block max-h-none w-auto object-contain group-hover:opacity-90 transition-opacity duration-300 -ml-10"
-            style={{ height:'170px', transform:'translateY(10px)', filter:'drop-shadow(0 2px 12px rgba(45,148,150,0.35))' }}
+            className="max-h-none w-auto object-contain group-hover:opacity-90 transition-opacity duration-300 -ml-6 sm:-ml-10"
+            style={{ height:'clamp(70px, 12vw, 170px)', transform:'translateY(4px)', filter:'drop-shadow(0 2px 12px rgba(45,148,150,0.35))' }}
           />
-          {/* Square icon — mobile only */}
-          <div className="sm:hidden w-11 h-11 rounded-xl overflow-hidden ring-1 ring-white/10 flex-shrink-0">
-            <img src={logoSquare} alt="Chanda's Group" className="w-full h-full object-contain bg-white p-0.5" />
-          </div>
         </button>
 
         {/* Desktop nav */}
@@ -161,7 +156,7 @@ function Navbar({ onOpenPortal }: { onOpenPortal: () => void }) {
       </div>
 
       {/* Mobile drawer */}
-      <div className={`md:hidden transition-all duration-300 overflow-hidden ${open ? 'max-h-96' : 'max-h-0'} bg-[#050e1a]/98 border-b border-white/5`}>
+      <div className={`md:hidden transition-all duration-300 overflow-hidden ${open ? 'max-h-[32rem]' : 'max-h-0'} bg-[#050e1a]/98 border-b border-white/5`}>
         <div className="px-6 py-4 flex flex-col">
           {NAV_LINKS.map((l) => (
             <button key={l} onClick={() => go(l)} className="py-3.5 text-left text-white/70 hover:text-white border-b border-white/5 last:border-0 text-base font-medium tracking-wide transition-colors">{l}</button>
@@ -225,39 +220,39 @@ function Hero({ onOpenPortal }: { onOpenPortal: () => void }) {
       <Particles />
       <BuildingSilhouette />
       <div className="absolute inset-0 scanline pointer-events-none overflow-hidden opacity-30" />
-      <div className="relative z-10 text-center px-6 mt-[-60px]">
+      <div className="relative z-10 text-center px-4 sm:px-6 mt-[-20px] sm:mt-[-60px]">
         {/* ── No logo repeated in hero — it's in the navbar ── */}
-        <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#2d9496]/40 bg-[#2d9496]/10 backdrop-blur-sm mb-6 transition-all duration-700 ${visible?'opacity-100 translate-y-0':'opacity-0 translate-y-4'}`} style={{ transitionDelay:'0.15s' }}>
-          <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
-          <span className="text-teal-300 text-xs font-medium tracking-[0.25em] uppercase">Dreams Abode — Since 1990s</span>
+        <div className={`inline-flex items-center gap-1.5 px-3 sm:px-4 py-1 rounded-full border border-[#2d9496]/40 bg-[#2d9496]/10 backdrop-blur-sm mb-4 sm:mb-6 transition-all duration-700 ${visible?'opacity-100 translate-y-0':'opacity-0 translate-y-4'}`} style={{ transitionDelay:'0.15s' }}>
+          <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-teal-400 animate-pulse" />
+          <span className="text-teal-300 text-[10px] sm:text-xs font-medium tracking-[0.25em] uppercase">Dreams Abode — Since 1990s</span>
         </div>
-        <h1 className="leading-none mb-4">
-          <div className="flex flex-wrap justify-center gap-x-6 gap-y-0 overflow-hidden">
+        <h1 className="leading-none mb-3 sm:mb-4">
+          <div className="flex flex-wrap justify-center gap-x-3 sm:gap-x-6 gap-y-0 overflow-hidden">
             {words.map((w,i) => (
-              <span key={w} className="block text-white text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-black transition-all duration-700"
+              <span key={w} className="block text-white text-5xl sm:text-7xl lg:text-8xl xl:text-9xl font-black transition-all duration-700"
                 style={{ fontFamily:"'Playfair Display', Georgia, serif", transitionDelay:`${0.3+i*0.12}s`, opacity:visible?1:0, transform:visible?'translateY(0)':'translateY(60px)' }}>{w}</span>
             ))}
           </div>
-          <div className="flex flex-wrap justify-center gap-x-6 overflow-hidden mt-1">
+          <div className="flex flex-wrap justify-center gap-x-3 sm:gap-x-6 overflow-hidden mt-0 sm:mt-1">
             {words2.map((w,i) => (
-              <span key={w} className="block text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-black transition-all duration-700 grad-text"
+              <span key={w} className="block text-5xl sm:text-7xl lg:text-8xl xl:text-9xl font-black transition-all duration-700 grad-text"
                 style={{ fontFamily:"'Playfair Display', Georgia, serif", transitionDelay:`${0.5+i*0.12}s`, opacity:visible?1:0, transform:visible?'translateY(0)':'translateY(60px)' }}>{w}</span>
             ))}
           </div>
         </h1>
-        <p className="text-white/50 text-base sm:text-lg max-w-lg mx-auto leading-relaxed mt-6 transition-all duration-700 font-corsiva text-xl italic"
+        <p className="text-white/50 text-sm sm:text-base lg:text-lg max-w-lg mx-auto leading-relaxed mt-4 sm:mt-6 transition-all duration-700 font-corsiva text-base sm:text-xl italic px-2"
           style={{ transitionDelay:'0.8s', opacity:visible?1:0, transform:visible?'translateY(0)':'translateY(20px)' }}>
           Founded in the late 1990s by the Chanda family — over 40 years of crafting legacies.
         </p>
-        <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center transition-all duration-700"
+        <div className="mt-6 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center transition-all duration-700 px-4 sm:px-0"
           style={{ transitionDelay:'0.95s', opacity:visible?1:0, transform:visible?'translateY(0)':'translateY(20px)' }}>
           <button onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior:'smooth' })}
-            className="teal-btn group px-8 py-4 font-semibold rounded-full text-white flex items-center gap-2 justify-center hover:scale-105 transition-transform">
+            className="teal-btn group px-6 sm:px-8 py-3 sm:py-4 font-semibold rounded-full text-white flex items-center gap-2 justify-center hover:scale-105 transition-transform text-sm sm:text-base">
             <span>Explore Projects</span>
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </button>
           <button onClick={onOpenPortal}
-            className="px-8 py-4 font-semibold rounded-full text-white/80 hover:text-white border border-white/20 hover:border-[#2d9496]/60 backdrop-blur-sm transition-all">
+            className="px-6 sm:px-8 py-3 sm:py-4 font-semibold rounded-full text-white/80 hover:text-white border border-white/20 hover:border-[#2d9496]/60 backdrop-blur-sm transition-all text-sm sm:text-base">
             View Full Portfolio
           </button>
         </div>
@@ -294,23 +289,23 @@ function About() {
   const ref = useRef<HTMLElement>(null);
   useScrollReveal(ref);
   return (
-    <section id="about" ref={ref} className="bg-white py-28 px-6 lg:px-10">
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+    <section id="about" ref={ref} className="bg-white py-16 sm:py-28 px-6 lg:px-10">
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
         <div className="sr-l relative">
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[540px]">
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[300px] sm:h-[400px] lg:h-[540px]">
             <img src={irisImg} alt="Chanda's Group Infinity Tower" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#050e1a]/60 to-transparent" />
-            <div className="absolute bottom-8 left-8 right-8">
-              <div className="text-white/60 text-xs tracking-[0.3em] uppercase mb-1 font-corsiva italic">Landmark Project</div>
-              <div className="text-white font-serif text-2xl font-black uppercase tracking-wide">INFINITY TOWER</div>
-              <div className="text-[#4ecdc4] text-sm">A Wing, Sector 2A, Koperkhairane</div>
+            <div className="absolute bottom-6 sm:bottom-8 left-6 sm:left-8 right-6 sm:right-8">
+              <div className="text-white/60 text-[10px] sm:text-xs tracking-[0.3em] uppercase mb-1 font-corsiva italic">Landmark Project</div>
+              <div className="text-white font-serif text-xl sm:text-2xl font-black uppercase tracking-wide">INFINITY TOWER</div>
+              <div className="text-[#4ecdc4] text-xs sm:text-sm">A Wing, Sector 2A, Koperkhairane</div>
             </div>
           </div>
-          <div className="absolute -right-6 top-12 bg-white rounded-2xl shadow-2xl p-5 border border-gray-100">
+          <div className="hidden sm:block absolute -right-6 top-12 bg-white rounded-2xl shadow-2xl p-5 border border-gray-100">
             <div className="text-[#050e1a] font-serif font-black text-3xl leading-none">40+</div>
             <div className="text-gray-500 text-xs mt-1 font-medium">Years of Legacy</div>
           </div>
-          <div className="absolute -right-6 bottom-20 bg-[#2d9496] rounded-2xl shadow-2xl p-5">
+          <div className="hidden sm:block absolute -right-6 bottom-20 bg-[#2d9496] rounded-2xl shadow-2xl p-5">
             <div className="text-white font-serif font-black text-3xl leading-none">700+</div>
             <div className="text-teal-100 text-xs mt-1 font-medium">Families Housed</div>
           </div>
@@ -322,7 +317,7 @@ function About() {
               <div className="w-8 h-px bg-[#2d9496]" />
               <span className="text-[#2d9496] text-sm font-semibold tracking-[0.2em] uppercase">Our Story</span>
             </div>
-            <h2 className="font-serif text-4xl lg:text-5xl font-black text-[#050e1a] leading-[1.05] uppercase tracking-wide">A LEGACY BUILT ON<br /><span style={{ color:'#2d9496' }}>TRUST &amp; VISION</span></h2>
+            <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-black text-[#050e1a] leading-[1.05] uppercase tracking-wide">A LEGACY BUILT ON<br /><span style={{ color:'#2d9496' }}>TRUST &amp; VISION</span></h2>
           </div>
           <p className="sr delay-1 text-gray-600 leading-relaxed text-[15px]">
             Chanda's Group was founded in the late 1990s by four visionary brothers —{' '}
@@ -375,7 +370,7 @@ function Stats() {
   const ref = useRef<HTMLElement>(null);
   useScrollReveal(ref);
   return (
-    <section ref={ref} className="bg-[#050e1a] py-24 px-6 lg:px-10 relative overflow-hidden">
+    <section ref={ref} className="bg-[#050e1a] py-16 sm:py-24 px-6 lg:px-10 relative overflow-hidden">
       <div className="absolute inset-0 building-grid opacity-20" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-gradient-to-b from-transparent via-[#2d9496]/20 to-transparent" />
       <div className="max-w-7xl mx-auto relative">
@@ -385,7 +380,7 @@ function Stats() {
             <span className="text-[#2d9496] text-sm font-semibold tracking-[0.2em] uppercase">By The Numbers</span>
             <div className="w-12 h-px bg-[#2d9496]" />
           </div>
-          <h2 className="font-serif text-4xl lg:text-5xl font-black text-white">Our Impact</h2>
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-black text-white">Our Impact</h2>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {[{val:40,suf:'+',lbl:'Years of Legacy',desc:'Decades of trusted craftsmanship'},{val:20,suf:'+',lbl:'Projects Delivered',desc:'Across Mumbai & Navi Mumbai'},{val:700,suf:'+',lbl:'Happy Families',desc:'Homes built with love'},{val:10,suf:'+',lbl:'Locations',desc:'Prime urban locations'}].map((s,i) => (
@@ -415,7 +410,7 @@ function Values() {
   const ref = useRef<HTMLElement>(null);
   useScrollReveal(ref);
   return (
-    <section id="values" ref={ref} className="bg-[#0a1930] py-28 px-6 lg:px-10 relative overflow-hidden">
+    <section id="values" ref={ref} className="bg-[#0a1930] py-16 sm:py-28 px-6 lg:px-10 relative overflow-hidden">
       <div className="absolute inset-0 building-grid opacity-15" />
       <div className="absolute top-0 right-0 w-96 h-96 rounded-full pointer-events-none" style={{ background:'radial-gradient(circle, rgba(45,148,150,0.12) 0%, transparent 70%)', transform:'translate(30%, -30%)' }} />
       <div className="max-w-7xl mx-auto relative">
@@ -423,7 +418,7 @@ function Values() {
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="w-12 h-px bg-[#2d9496]" /><span className="text-[#2d9496] text-sm font-semibold tracking-[0.2em] uppercase">What We Stand For</span><div className="w-12 h-px bg-[#2d9496]" />
           </div>
-          <h2 className="font-serif text-4xl lg:text-5xl font-black text-white">Our Core Values</h2>
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-black text-white">Our Core Values</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {VALUES.map(({ icon: Icon, n, t, d }, i) => (
@@ -528,13 +523,13 @@ function Projects({ onOpenPortal }: { onOpenPortal: () => void }) {
   const shown = list;
   const [featured, ...rest] = shown;
   return (
-    <section id="projects" ref={ref} className="bg-[#050e1a] py-28 px-6 lg:px-10 relative">
+    <section id="projects" ref={ref} className="bg-[#050e1a] py-16 sm:py-28 px-6 lg:px-10 relative">
       <div className="absolute inset-0 building-grid opacity-10" />
       <div className="max-w-7xl mx-auto relative">
         <div className="sr flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
           <div>
             <div className="flex items-center gap-3 mb-4"><div className="w-8 h-px bg-[#2d9496]" /><span className="text-[#2d9496] text-sm font-semibold tracking-[0.2em] uppercase">Our Portfolio</span></div>
-            <h2 className="font-serif text-4xl lg:text-5xl font-black text-white">Our Projects</h2>
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-black text-white">Our Projects</h2>
           </div>
           <div className="flex items-center gap-4 self-start flex-wrap">
             <div className="flex bg-white/5 rounded-full p-1.5 gap-1 border border-white/10">
@@ -574,7 +569,7 @@ function Team() {
   const shown = useMemo(() => LEADERSHIP.filter(l => genFilter==='all' || l.gen===genFilter), [genFilter]);
 
   return (
-    <section id="team" ref={ref} className="bg-white py-28 px-6 lg:px-10">
+    <section id="team" ref={ref} className="bg-white py-16 sm:py-28 px-6 lg:px-10">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="sr text-center mb-16">
@@ -583,7 +578,7 @@ function Team() {
             <span className="text-[#2d9496] text-sm font-semibold tracking-[0.2em] uppercase">The People</span>
             <div className="w-12 h-px bg-[#2d9496]" />
           </div>
-          <h2 className="font-serif text-4xl lg:text-5xl font-black text-[#050e1a]">Our Leadership</h2>
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-black text-[#050e1a]">Our Leadership</h2>
           <p className="mt-4 text-gray-500 max-w-xl mx-auto text-sm leading-relaxed">
             Two families. One vision. Over four decades of building landmarks that stand the test of time.
           </p>
@@ -591,7 +586,7 @@ function Team() {
 
         {/* Founders group photo — full-width hero banner */}
         {(genFilter === 'all' || genFilter === 'founders') && (
-          <div className="sr mb-10 relative rounded-3xl overflow-hidden shadow-2xl" style={{ aspectRatio:'21/9' }}>
+          <div className="sr mb-10 relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/3] sm:aspect-[21/9]">
             <img
               src={foundersImg}
               alt="Chanda's Group Founders"
@@ -688,13 +683,13 @@ function Contact() {
   };
   const inp = "w-full px-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-white/30 focus:outline-none focus:border-[#2d9496] focus:bg-[#2d9496]/5 transition-all";
   return (
-    <section id="contact" ref={ref} className="bg-[#0a1930] py-28 px-6 lg:px-10 relative overflow-hidden">
+    <section id="contact" ref={ref} className="bg-[#0a1930] py-16 sm:py-28 px-6 lg:px-10 relative overflow-hidden">
       <div className="absolute inset-0 building-grid opacity-15" />
       <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full pointer-events-none" style={{ background:'radial-gradient(circle, rgba(45,148,150,0.1) 0%, transparent 70%)', transform:'translate(30%,30%)' }} />
       <div className="max-w-7xl mx-auto relative">
         <div className="sr text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-4"><div className="w-12 h-px bg-[#2d9496]" /><span className="text-[#2d9496] text-sm font-semibold tracking-[0.2em] uppercase">Get In Touch</span><div className="w-12 h-px bg-[#2d9496]" /></div>
-          <h2 className="font-serif text-4xl lg:text-5xl font-black text-white">Contact Us</h2>
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-black text-white">Contact Us</h2>
           <p className="mt-4 text-white/50 max-w-md mx-auto text-[15px]">Our team is always ready to assist you. Reach out through phone, email, or visit our office.</p>
         </div>
         <div className="grid lg:grid-cols-2 gap-10">
@@ -759,7 +754,7 @@ function Footer({ onOpenPortal }: { onOpenPortal: () => void }) {
       <div className="max-w-7xl mx-auto px-6 lg:px-10 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         <div>
           <div className="mb-5">
-            <img src={logoPng} alt="Chanda's Group" className="h-20 w-auto object-contain" style={{ filter:'drop-shadow(0 2px 8px rgba(45,148,150,0.25))' }} />
+            <img src={logoPng} alt="Chanda's Group" className="h-14 sm:h-20 w-auto object-contain" style={{ filter:'drop-shadow(0 2px 8px rgba(45,148,150,0.25))' }} />
           </div>
           <p className="text-white/40 text-sm leading-relaxed mb-6">Building dreams and crafting legacies since the late 1990s.</p>
           <div className="flex gap-3">
