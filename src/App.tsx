@@ -131,7 +131,7 @@ function Navbar({ onOpenPortal }: { onOpenPortal: () => void }) {
             src={logoPng}
             alt="Chanda's Group — Dreams Abode"
             className="max-h-none w-auto object-contain group-hover:opacity-90 transition-opacity duration-300 -ml-8 sm:-ml-14"
-            style={{ height:'clamp(110px, 18vw, 240px)', transform:'translateY(8px)', filter:'drop-shadow(0 2px 12px rgba(45,148,150,0.35))' }}
+            style={{ height:'clamp(75px, 13vw, 190px)', transform:'translateY(8px)', filter:'drop-shadow(0 2px 12px rgba(45,148,150,0.35))' }}
           />
         </button>
 
