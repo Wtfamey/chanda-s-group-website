@@ -21,7 +21,7 @@ import {
 import { Listing } from '../types';
 import { DEFAULT_LISTINGS } from '../data';
 import { supabase } from '../supabase';
-import { signIn, signUp, signOut as sbSignOut, getSession, uploadImage, upsertListing, deleteListing as sbDeleteListing } from '../supabaseService';
+import { signIn, signUp, signOut as sbSignOut, getSession, uploadImage, uploadDocument, upsertListing, deleteListing as sbDeleteListing } from '../supabaseService';
 
 /* ── Types ─────────────────────────────────────────────── */
 interface AdminPanelProps {
@@ -112,12 +112,18 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
   const [featureInput, setFeatureInput] = useState('');
   const [amenityInput, setAmenityInput] = useState('');
   const [urlInput, setUrlInput] = useState('');
+  const [brochureUrl, setBrochureUrl] = useState('');
+  const [floorPlanUrl, setFloorPlanUrl] = useState('');
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [imageUploading, setImageUploading] = useState(false);
   const [imageError, setImageError] = useState('');
+  const [docUploading, setDocUploading] = useState<'brochure'|'floorPlan'|null>(null);
+  const [docError, setDocError] = useState('');
   const [saving, setSaving] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const brochureInputRef = useRef<HTMLInputElement>(null);
+  const floorPlanInputRef = useRef<HTMLInputElement>(null);
   const formTopRef = useRef<HTMLDivElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
 
@@ -241,8 +247,8 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
     setEditId(null);
     setForm({ ...EMPTY_FORM });
     setDescLines(['']);
-    setFeatureInput(''); setAmenityInput(''); setUrlInput('');
-    setFormErrors({}); setImageError('');
+    setFeatureInput(''); setAmenityInput(''); setUrlInput(''); setBrochureUrl(''); setFloorPlanUrl('');
+    setFormErrors({}); setImageError(''); setDocError('');
     setView('form');
     setTimeout(() => formTopRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
   }, []);
@@ -257,10 +263,11 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
       possession: l.possession || '', wing: l.wing || '', description: l.description,
       features: l.features, amenities: l.amenities, images: l.images,
       featured: l.featured, badge: l.badge || '',
+      brochure: l.brochure, floorPlan: l.floorPlan,
     });
     setDescLines(l.description.length ? l.description : ['']);
     setFeatureInput(''); setAmenityInput(''); setUrlInput('');
-    setFormErrors({}); setImageError('');
+    setFormErrors({}); setImageError(''); setDocError('');
     setView('form');
     setTimeout(() => formTopRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
   }, []);
@@ -308,6 +315,28 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
   };
 
   const removeImage = (idx: number) => setForm(f => ({ ...f, images: f.images.filter((_, i) => i !== idx) }));
+
+  /* Document upload (brochure / floor plan) */
+  const handleDocUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>, field: 'brochure' | 'floorPlan') => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setDocUploading(field);
+    setDocError('');
+    try {
+      if (supabase) {
+        const url = await uploadDocument(file, 'documents');
+        setForm(f => ({ ...f, [field]: url }));
+      } else {
+        setDocError('Document upload requires Supabase to be configured.');
+      }
+    } catch (err: any) {
+      setDocError(err.message);
+    }
+    setDocUploading(null);
+    e.target.value = '';
+  }, []);
+
+  const clearDoc = (field: 'brochure' | 'floorPlan') => setForm(f => ({ ...f, [field]: undefined }));
   const moveImageFirst = (idx: number) => {
     if (idx === 0) return;
     setForm(f => {
@@ -603,6 +632,71 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
 
           {imageError && <p role="alert" className="text-red-400 text-xs flex items-center gap-1"><AlertTriangle size={11}/>{imageError}</p>}
           {formErrors.images && <p role="alert" className="text-red-400 text-xs flex items-center gap-1"><AlertTriangle size={11}/>{formErrors.images}</p>}
+        </section>
+
+        {/* ── DOCUMENTS (Brochure & Floor Plan) ── */}
+        <section className="bg-[#0a1930] border border-white/5 rounded-2xl p-5 space-y-4">
+          <h3 className="text-[11px] font-mono text-[#c5a880] uppercase tracking-widest">Documents</h3>
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* Brochure */}
+            <div className="space-y-2">
+              <label className={label}>Brochure (PDF)</label>
+              {form.brochure ? (
+                <div className="flex items-center gap-2 p-3 bg-[#050e1a] rounded-xl border border-white/10">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#2d9496] flex-shrink-0"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                  <a href={form.brochure} target="_blank" rel="noopener noreferrer" className="text-xs text-[#4ecdc4] hover:underline truncate flex-grow">View Brochure</a>
+                  <button type="button" onClick={() => clearDoc('brochure')} className="text-red-400 hover:text-red-300 p-1 flex-shrink-0" aria-label="Remove brochure"><X size={13}/></button>
+                </div>
+              ) : (
+                <div className="flex gap-2">
+                  <input type="text" placeholder="Or paste PDF URL..." value={brochureUrl}
+                    onChange={e => setBrochureUrl(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); const v = brochureUrl.trim(); if (v) { setForm(f => ({...f, brochure: v})); setBrochureUrl(''); } } }}
+                    className="flex-grow bg-[#050e1a] text-white border border-white/10 px-3 py-2 text-xs rounded-xl focus:outline-none focus:border-[#2d9496] placeholder-white/20 transition-colors" aria-label="Brochure URL" />
+                  <button type="button" onClick={() => { const v = brochureUrl.trim(); if (v) { setForm(f => ({...f, brochure: v})); setBrochureUrl(''); } }}
+                    className="px-3 py-2 bg-[#2d9496]/20 border border-[#2d9496]/30 text-[#4ecdc4] text-xs rounded-xl transition-all font-semibold flex-shrink-0">Set URL</button>
+                </div>
+              )}
+              <input type="file" accept="application/pdf" onChange={e => handleDocUpload(e, 'brochure')} className="hidden" ref={brochureInputRef} aria-label="Upload brochure PDF" />
+              {!form.brochure && (
+                <button type="button" onClick={() => brochureInputRef.current?.click()} disabled={docUploading === 'brochure'}
+                  className="w-full py-2 bg-[#050e1a] border border-dashed border-white/20 rounded-xl text-xs text-white/30 hover:text-white/60 hover:border-[#2d9496]/60 transition-all flex items-center justify-center gap-1.5">
+                  {docUploading === 'brochure' ? <RefreshCw size={12} className="animate-spin"/> : <Upload size={12}/>}
+                  <span>{docUploading === 'brochure' ? 'Uploading...' : 'Upload PDF'}</span>
+                </button>
+              )}
+            </div>
+
+            {/* Floor Plan */}
+            <div className="space-y-2">
+              <label className={label}>Floor Plan (PDF)</label>
+              {form.floorPlan ? (
+                <div className="flex items-center gap-2 p-3 bg-[#050e1a] rounded-xl border border-white/10">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#2d9496] flex-shrink-0"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                  <a href={form.floorPlan} target="_blank" rel="noopener noreferrer" className="text-xs text-[#4ecdc4] hover:underline truncate flex-grow">View Floor Plan</a>
+                  <button type="button" onClick={() => clearDoc('floorPlan')} className="text-red-400 hover:text-red-300 p-1 flex-shrink-0" aria-label="Remove floor plan"><X size={13}/></button>
+                </div>
+              ) : (
+                <div className="flex gap-2">
+                  <input type="text" placeholder="Or paste PDF URL..." value={floorPlanUrl}
+                    onChange={e => setFloorPlanUrl(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); const v = floorPlanUrl.trim(); if (v) { setForm(f => ({...f, floorPlan: v})); setFloorPlanUrl(''); } } }}
+                    className="flex-grow bg-[#050e1a] text-white border border-white/10 px-3 py-2 text-xs rounded-xl focus:outline-none focus:border-[#2d9496] placeholder-white/20 transition-colors" aria-label="Floor plan URL" />
+                  <button type="button" onClick={() => { const v = floorPlanUrl.trim(); if (v) { setForm(f => ({...f, floorPlan: v})); setFloorPlanUrl(''); } }}
+                    className="px-3 py-2 bg-[#2d9496]/20 border border-[#2d9496]/30 text-[#4ecdc4] text-xs rounded-xl transition-all font-semibold flex-shrink-0">Set URL</button>
+                </div>
+              )}
+              <input type="file" accept="application/pdf" onChange={e => handleDocUpload(e, 'floorPlan')} className="hidden" ref={floorPlanInputRef} aria-label="Upload floor plan PDF" />
+              {!form.floorPlan && (
+                <button type="button" onClick={() => floorPlanInputRef.current?.click()} disabled={docUploading === 'floorPlan'}
+                  className="w-full py-2 bg-[#050e1a] border border-dashed border-white/20 rounded-xl text-xs text-white/30 hover:text-white/60 hover:border-[#2d9496]/60 transition-all flex items-center justify-center gap-1.5">
+                  {docUploading === 'floorPlan' ? <RefreshCw size={12} className="animate-spin"/> : <Upload size={12}/>}
+                  <span>{docUploading === 'floorPlan' ? 'Uploading...' : 'Upload PDF'}</span>
+                </button>
+              )}
+            </div>
+          </div>
+          {docError && <p role="alert" className="text-red-400 text-xs flex items-center gap-1"><AlertTriangle size={11}/>{docError}</p>}
         </section>
 
         {/* ── BASIC DETAILS ── */}

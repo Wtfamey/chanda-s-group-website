@@ -154,6 +154,30 @@ export async function uploadImage(file: File, bucket: string = 'project-images')
   return publicUrl;
 }
 
+/* ── Document Upload (PDF) ────────────────────────────── */
+
+const ALLOWED_DOC_TYPES = ['application/pdf'];
+const MAX_DOC_SIZE_MB = 20;
+
+export async function uploadDocument(file: File, bucket: string = 'documents'): Promise<string> {
+  if (!supabase) throw new Error('Supabase not configured');
+  if (!ALLOWED_DOC_TYPES.includes(file.type)) {
+    throw new Error(`Unsupported file type: ${file.type}. Use PDF only.`);
+  }
+  if (file.size > MAX_DOC_SIZE_MB * 1024 * 1024) {
+    throw new Error(`File too large (max ${MAX_DOC_SIZE_MB}MB): ${file.name}`);
+  }
+  const ext = file.name.split('.').pop() || 'pdf';
+  const path = `${Date.now()}-${Math.random().toString(36).substring(2, 10)}.${ext}`;
+  const { data, error } = await supabase.storage.from(bucket).upload(path, file, {
+    cacheControl: '3600',
+    upsert: false,
+  });
+  if (error) throw error;
+  const { data: { publicUrl } } = supabase.storage.from(bucket).getPublicUrl(data.path);
+  return publicUrl;
+}
+
 /* ── Auth ──────────────────────────────────────────────── */
 
 export async function signIn(email: string, password: string) {
