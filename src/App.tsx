@@ -130,8 +130,8 @@ function Navbar({ onOpenPortal }: { onOpenPortal: () => void }) {
           <img
             src={logoPng}
             alt="Chanda's Group — Dreams Abode"
-            className="max-h-none w-auto object-contain group-hover:opacity-90 transition-opacity duration-300 -ml-6 sm:-ml-10"
-            style={{ height:'clamp(70px, 12vw, 170px)', transform:'translateY(8px)', filter:'drop-shadow(0 2px 12px rgba(45,148,150,0.35))' }}
+            className="max-h-none w-auto object-contain group-hover:opacity-90 transition-opacity duration-300 -ml-8 sm:-ml-14"
+            style={{ height:'clamp(110px, 18vw, 240px)', transform:'translateY(8px)', filter:'drop-shadow(0 2px 12px rgba(45,148,150,0.35))' }}
           />
         </button>
 
@@ -590,15 +590,16 @@ function Team() {
             <img
               src={foundersImg}
               alt="Chanda's Group Founders"
-              className="w-full h-full object-cover object-[50%_22%] bg-[#0a1930]"
+              className="w-full h-full object-cover object-[50%_20%] bg-[#0a1930]"
             />
-            <div className="absolute bottom-0 left-0 p-8 max-w-lg">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="w-6 h-px bg-[#4ecdc4]" />
-                <span className="text-[#4ecdc4] text-[10px] tracking-[0.3em] uppercase font-semibold">The Visionaries · Est. Late 1990s</span>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#050e1a]/70 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-8">
+              <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                <span className="w-4 sm:w-6 h-px bg-[#4ecdc4]" />
+                <span className="text-[#4ecdc4] text-[8px] sm:text-[10px] tracking-[0.3em] uppercase font-semibold">The Visionaries</span>
               </div>
-              <h3 className="font-serif text-2xl md:text-3xl font-black text-white leading-tight">Founding Partners</h3>
-              <p className="text-white/60 text-sm mt-2 leading-relaxed">
+              <h3 className="font-serif text-sm sm:text-2xl md:text-3xl font-black text-white leading-tight">Founding Partners</h3>
+              <p className="text-white/60 text-[10px] sm:text-sm mt-1 sm:mt-2 leading-relaxed hidden sm:block">
                 Mr. Gulshan R. Chanda &nbsp;·&nbsp; Mr. Satish R. Chanda &nbsp;·&nbsp; Mr. Arun R. Chanda &nbsp;·&nbsp; Mr. Vijay Hinger
               </p>
             </div>
