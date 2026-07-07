@@ -131,7 +131,7 @@ function Navbar({ onOpenPortal }: { onOpenPortal: () => void }) {
             src={logoPng}
             alt="Chanda's Group — Dreams Abode"
             className="max-h-none w-auto object-contain group-hover:opacity-90 transition-opacity duration-300 -ml-6 sm:-ml-10"
-            style={{ height:'clamp(70px, 12vw, 170px)', transform:'translateY(4px)', filter:'drop-shadow(0 2px 12px rgba(45,148,150,0.35))' }}
+            style={{ height:'clamp(70px, 12vw, 170px)', transform:'translateY(8px)', filter:'drop-shadow(0 2px 12px rgba(45,148,150,0.35))' }}
           />
         </button>
 
@@ -214,12 +214,12 @@ function Hero({ onOpenPortal }: { onOpenPortal: () => void }) {
   useEffect(() => { const t = setTimeout(() => setVisible(true), 200); return () => clearTimeout(t); }, []);
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#050e1a]">
-      <div className="absolute inset-0 building-grid opacity-40" />
+      <div className="absolute inset-0 building-grid opacity-15" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full pointer-events-none" style={{ background:'radial-gradient(circle, rgba(45,148,150,0.08) 0%, transparent 70%)' }} />
       <div className="absolute bottom-0 left-0 w-64 h-64 pointer-events-none" style={{ background:'linear-gradient(135deg, #2d9496 0%, transparent 60%)', opacity:0.35, clipPath:'polygon(0 100%,100% 100%,0 0)' }} />
       <Particles />
       <BuildingSilhouette />
-      <div className="absolute inset-0 scanline pointer-events-none overflow-hidden opacity-30" />
+      <div className="absolute inset-0 grain pointer-events-none overflow-hidden opacity-[0.03]" />
       <div className="relative z-10 text-center px-4 sm:px-6 mt-[-20px] sm:mt-[-60px]">
         {/* ── No logo repeated in hero — it's in the navbar ── */}
         <div className={`inline-flex items-center gap-1.5 px-3 sm:px-4 py-1 rounded-full border border-[#2d9496]/40 bg-[#2d9496]/10 backdrop-blur-sm mb-4 sm:mb-6 transition-all duration-700 ${visible?'opacity-100 translate-y-0':'opacity-0 translate-y-4'}`} style={{ transitionDelay:'0.15s' }}>

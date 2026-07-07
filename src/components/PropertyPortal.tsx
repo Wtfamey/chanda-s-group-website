@@ -5,6 +5,8 @@ import {
   Check,
 } from 'lucide-react';
 import { Listing } from '../types';
+import { supabase } from '../supabase';
+import { saveContactMessage } from '../supabaseService';
 
 interface Props { listings: Listing[]; open: boolean; onClose: () => void; }
 
@@ -21,6 +23,9 @@ export default function PropertyPortal({ listings, open, onClose }: Props) {
   const [detail, setDetail] = useState<Listing|null>(null);
   const [imgIdx, setImgIdx] = useState(0);
   const [enquirySent, setEnquirySent] = useState(false);
+  const [enqName, setEnqName] = useState('');
+  const [enqPhone, setEnqPhone] = useState('');
+  const [enqEmail, setEnqEmail] = useState('');
 
   const localities = useMemo(()=>['All',...Array.from(new Set(listings.map(l=>l.locality)))],[listings]);
 
@@ -299,14 +304,13 @@ export default function PropertyPortal({ listings, open, onClose }: Props) {
                     <div className="text-center py-6 space-y-2">
                       <div className="w-10 h-10 mx-auto rounded-full flex items-center justify-center" style={{background:'linear-gradient(135deg,#2d9496,#1e5f61)'}}><Check size={18} className="text-white"/></div>
                       <p className="text-white/60 text-xs">Enquiry sent! We'll contact you shortly.</p>
-                      <button onClick={()=>setEnquirySent(false)} className="text-[#4ecdc4] text-xs hover:underline">Send another</button>
+                      <button onClick={()=>{setEnquirySent(false);setEnqName('');setEnqPhone('');setEnqEmail('');}} className="text-[#4ecdc4] text-xs hover:underline">Send another</button>
                     </div>
                   ) : (
-                    <form onSubmit={e=>{e.preventDefault();setEnquirySent(true);}} className="space-y-2.5">
-                      <input type="text" placeholder="Your Name" required className="w-full bg-[#0a1930] text-white border border-white/10 px-3 py-2 text-xs rounded-xl focus:outline-none focus:border-[#2d9496] placeholder-white/20 transition-colors"/>
-                      <input type="tel" placeholder="Phone Number" required className="w-full bg-[#0a1930] text-white border border-white/10 px-3 py-2 text-xs rounded-xl focus:outline-none focus:border-[#2d9496] placeholder-white/20 transition-colors"/>
-                      <input type="email" placeholder="Email Address" className="w-full bg-[#0a1930] text-white border border-white/10 px-3 py-2 text-xs rounded-xl focus:outline-none focus:border-[#2d9496] placeholder-white/20 transition-colors"/>
-                      <textarea rows={3} placeholder={`Enquiry about ${detail.title}...`} className="w-full bg-[#0a1930] text-white border border-white/10 px-3 py-2 text-xs rounded-xl focus:outline-none focus:border-[#2d9496] placeholder-white/20 transition-colors resize-none"/>
+                    <form onSubmit={async e=>{e.preventDefault();try{await saveContactMessage({name:enqName,email:enqEmail||'guest@example.com',phone:enqPhone,message:`Enquiry about ${detail?.title}: ${detail?.title}`});}catch{}setEnquirySent(true);}} className="space-y-2.5">
+                      <input type="text" placeholder="Your Name" required value={enqName} onChange={e=>setEnqName(e.target.value)} className="w-full bg-[#0a1930] text-white border border-white/10 px-3 py-2 text-xs rounded-xl focus:outline-none focus:border-[#2d9496] placeholder-white/20 transition-colors"/>
+                      <input type="tel" placeholder="Phone Number" required value={enqPhone} onChange={e=>setEnqPhone(e.target.value)} className="w-full bg-[#0a1930] text-white border border-white/10 px-3 py-2 text-xs rounded-xl focus:outline-none focus:border-[#2d9496] placeholder-white/20 transition-colors"/>
+                      <input type="email" placeholder="Email Address" value={enqEmail} onChange={e=>setEnqEmail(e.target.value)} className="w-full bg-[#0a1930] text-white border border-white/10 px-3 py-2 text-xs rounded-xl focus:outline-none focus:border-[#2d9496] placeholder-white/20 transition-colors"/>
                       <button type="submit" className="teal-btn w-full py-2.5 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 hover:scale-[1.02] transition-transform"><Send size={12}/><span>Send Enquiry</span></button>
                     </form>
                   )}
