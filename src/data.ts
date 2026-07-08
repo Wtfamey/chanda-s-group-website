@@ -9,6 +9,7 @@ import marigoldImg    from './assets/projects/marigold.png';
 import tulipImg       from './assets/projects/tulip.jpg';
 import infinityBImg   from './assets/projects/infinity-b-wing.jpg';
 import irisImg        from './assets/projects/iris.jpg';
+import cubixImg       from './assets/projects/cubix.jpg';
 import floorPlansPdf  from './assets/docs/floor-plans-infinity.pdf';
 import daffodilBrochurePdf from './assets/docs/daffodil-heights-brochure.pdf';
 
@@ -264,7 +265,7 @@ export const DEFAULT_LISTINGS: Listing[] = [
   },
   {
     id: 'cubix-arcade',
-    title: 'Cubix The Shopping Arcade',
+    title: 'Cubix Shopping Arcade',
     type: 'commercial',
     status: 'for-sale',
     projectCategory: 'completed',
@@ -282,7 +283,7 @@ export const DEFAULT_LISTINGS: Listing[] = [
     ],
     features: ['45,000 Sq. Ft. Mall Design', 'High-Capacity Escalators', 'Luxury Brand Spaces', 'Corporate Offices Available'],
     amenities: ['Multi-Level Parking', 'Food Court', 'ATM', 'CCTV', 'Fire Safety', 'Loading Bay'],
-    images: [FALLBACK_COMMERCIAL],
+    images: [cubixImg],
     featured: false,
     createdAt: '2024-01-10',
     badge: 'Commercial',

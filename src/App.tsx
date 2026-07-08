@@ -471,6 +471,7 @@ const COMPLETED: Proj[] = [
   { name:'Nirman CHS', loc:'Sector 13, New Panvel', area:'30,000 sq. ft.', units:'32 Flats + 16 Shops', img:'https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg?auto=compress&cs=tinysrgb&w=700' },
   { name:'Tulip Apartments', loc:'Plot 27H, Sector 11, Koperkhairane', area:'12,600 sq. ft.', units:'16 Flats', img:tulipImg },
   { name:'Marigold Apartments', loc:'Sector 21, Ghansoli', area:'14,000 sq. ft.', units:'Residential Flats', img:marigoldImg },
+  { name:'Cubix Shopping Arcade', loc:'Akurdi, Pune', area:'45,000 sq. ft.', units:'Commercial', img:cubixImg, badge:'Commercial' },
   { name:'Deep CHS', loc:'Plot 44, Sector 14, Koperkhairane', area:'17,000 sq. ft.', units:'27 Flats + 7 Shops', img:'https://images.pexels.com/photos/1370704/pexels-photo-1370704.jpeg?auto=compress&cs=tinysrgb&w=700' },
   { name:'Best CHS', loc:'Plot 39, Sector 14, Koperkhairane', area:'12,000 sq. ft.', units:'20 Flats', img:orchidImg },
   { name:'Poonam CHS', loc:'Plot 40, Sector 14, Koperkhairane', area:'12,000 sq. ft.', units:'20 Flats', img:'https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg?auto=compress&cs=tinysrgb&w=700' },
@@ -482,11 +483,10 @@ const UPCOMING: Proj[] = [
   { name:'Greenfield Heights', loc:'Chembur, Mumbai', area:'4,06,000 sq. ft.', units:'Mixed Use', img:'https://images.pexels.com/photos/2476632/pexels-photo-2476632.jpeg?auto=compress&cs=tinysrgb&w=700', badge:'Mega' },
   { name:'Daffodils Heights', sub:'D Wing', loc:'Bhandup (West), Mumbai', area:'—', units:'105 Flats', img:daffodilsImg, badge:'Phase 2' },
   { name:'Jasmine Heights', loc:'Ghansoli, Navi Mumbai', area:'38,000 sq. ft.', units:'Residential', img:orchidImg },
-  { name:'Cubix Shopping Arcade', loc:'Akurdi, Pune', area:'45,000 sq. ft.', units:'Commercial', img:cubixImg, badge:'Commercial' },
   { name:'Meridian Heights', loc:'Ghansoli, Navi Mumbai', area:'14,000 sq. ft.', units:'Residential', img:irisImg },
 ];
 
-function ProjCard({ p, big=false }: { p:Proj; big?:boolean }) {
+function ProjCard({ p, big=false, onClick }: { p:Proj; big?:boolean; onClick?:()=>void }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const handleMove = useCallback((clientX: number, clientY: number) => {
     const el = cardRef.current; if (!el) return;
@@ -496,7 +496,7 @@ function ProjCard({ p, big=false }: { p:Proj; big?:boolean }) {
   }, []);
   const handleLeave = useCallback(() => { if (cardRef.current) cardRef.current.style.transform = ''; }, []);
   return (
-    <div ref={cardRef}
+    <div ref={cardRef} onClick={onClick}
       onMouseMove={e => handleMove(e.clientX, e.clientY)}
       onMouseLeave={handleLeave}
       onTouchMove={e => { const t = e.touches[0]; if (t) handleMove(t.clientX, t.clientY); }}
@@ -538,11 +538,60 @@ function ProjCard({ p, big=false }: { p:Proj; big?:boolean }) {
 
 function Projects({ onOpenPortal }: { onOpenPortal: () => void }) {
   const [tab, setTab] = useState<'c'|'u'>('c');
+  const [detail, setDetail] = useState<Proj|null>(null);
   const ref = useRef<HTMLElement>(null);
   useScrollReveal(ref);
   const list = tab==='c' ? COMPLETED : UPCOMING;
   const shown = list;
   const [featured, ...rest] = shown;
+
+  /* iOS-safe scroll lock for detail modal */
+  useEffect(() => {
+    if (detail) {
+      const sy = window.scrollY;
+      document.body.style.position = 'fixed'; document.body.style.top = `-${sy}px`;
+      document.body.style.width = '100%'; document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.position = ''; document.body.style.top = '';
+        document.body.style.width = ''; document.body.style.overflow = '';
+        window.scrollTo(0, sy);
+      };
+    }
+  }, [detail]);
+
+  const DetailModal = detail ? (
+    <div className="fixed inset-0 z-[300] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto" onClick={() => setDetail(null)} style={{ overscrollBehavior:'contain' }}>
+      <div className="relative w-full max-w-4xl bg-[#0a1930] border border-white/10 rounded-2xl overflow-hidden shadow-2xl my-8" onClick={e => e.stopPropagation()}>
+        <button onClick={() => setDetail(null)} className="absolute top-4 right-4 z-10 p-2 bg-black/60 hover:bg-[#2d9496] rounded-xl text-white transition-all"><X size={16}/></button>
+        <div className="relative bg-[#050e1a] aspect-video overflow-hidden">
+          <img src={detail.img} alt={detail.name} className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1930]/90 to-transparent" />
+          {detail.badge && <div className="absolute top-4 left-4 px-3 py-1 text-xs font-bold tracking-wider uppercase text-white rounded-full" style={{ background:'linear-gradient(135deg,#2d9496,#1e5f61)' }}>{detail.badge}</div>}
+        </div>
+        <div className="p-6 md:p-8 space-y-5">
+          <div>
+            <div className="text-[#4ecdc4] text-xs tracking-[0.2em] uppercase mb-1">{detail.sub||'Residential'}</div>
+            <h3 className="font-serif text-2xl font-bold text-white">{detail.name}</h3>
+          </div>
+          <div className="flex items-center gap-2 text-white/60 text-sm"><MapPin size={13} className="text-[#2d9496]"/><span>{detail.loc}</span></div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {detail.area !== '—' && <div className="bg-[#050e1a] rounded-xl p-3 border border-white/5"><div className="text-white/30 text-[10px] font-mono uppercase">Area</div><div className="text-white font-bold text-sm">{detail.area}</div></div>}
+            <div className="bg-[#050e1a] rounded-xl p-3 border border-white/5"><div className="text-white/30 text-[10px] font-mono uppercase">Units</div><div className="text-white font-bold text-sm">{detail.units}</div></div>
+            <div className="bg-[#050e1a] rounded-xl p-3 border border-white/5"><div className="text-white/30 text-[10px] font-mono uppercase">Status</div><div className="text-[#4ecdc4] font-bold text-sm">{tab==='c'?'Completed':'Upcoming'}</div></div>
+          </div>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <button onClick={() => { setDetail(null); setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior:'smooth' }), 100); }}
+              className="teal-btn px-5 py-2.5 text-white text-sm font-semibold rounded-xl flex items-center gap-2 hover:scale-105 transition-transform">
+              <ArrowRight size={14}/> Enquire Now
+            </button>
+            {detail.floorPlan && <a href={detail.floorPlan} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 text-white/70 hover:text-white rounded-xl text-sm transition-all">Floor Plan <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></a>}
+            {detail.brochure && <a href={detail.brochure} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 text-white/70 hover:text-white rounded-xl text-sm transition-all">Brochure <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></a>}
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : null;
+
   return (
     <section id="projects" ref={ref} className="bg-[#050e1a] py-16 sm:py-28 px-6 lg:px-10 relative">
       <div className="absolute inset-0 building-grid opacity-10" />
@@ -567,17 +616,18 @@ function Projects({ onOpenPortal }: { onOpenPortal: () => void }) {
         </div>
         {featured && (
           <div className="grid lg:grid-cols-5 gap-5 mb-5">
-            <div className="lg:col-span-3 sr"><ProjCard p={featured} big /></div>
+            <div className="lg:col-span-3 sr"><ProjCard p={featured} big onClick={() => setDetail(featured)} /></div>
             <div className="lg:col-span-2 grid grid-rows-2 gap-5">
-              {rest.slice(0,2).map((p,i) => <div key={i} className={`sr delay-${i+2}`}><ProjCard p={p} /></div>)}
+              {rest.slice(0,2).map((p,i) => <div key={i} className={`sr delay-${i+2}`}><ProjCard p={p} onClick={() => setDetail(p)} /></div>)}
             </div>
           </div>
         )}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {rest.slice(2).map((p,i) => <div key={i} className={`sr delay-${Math.min(i+1,4)}`}><ProjCard p={p} /></div>)}
+          {rest.slice(2).map((p,i) => <div key={i} className={`sr delay-${Math.min(i+1,4)}`}><ProjCard p={p} onClick={() => setDetail(p)} /></div>)}
         </div>
 
       </div>
+      {DetailModal}
     </section>
   );
 }
