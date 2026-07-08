@@ -12,14 +12,18 @@ import { loadListingsFromSupabase, DEFAULT_LISTINGS } from './data';
 import { seedListings, saveContactMessage } from './supabaseService';
 
 /* ─────────────── ASSET IMPORTS ──────────────────────── */
-import logoPng        from './assets/logopng.png';          // 1536×1024 — THE correct logo
+import logoPng        from './assets/logopng.png';
 // Team — portrait-oriented
 import foundersImg    from './assets/team/founders.jpg';
+import arunChandaImg  from './assets/team/arun-chanda.jpg';
 import vishalChandaImg from './assets/team/vishal-chanda.jpg';
 import vimalHingerImg from './assets/team/vimal-hinger.jpg';
 import vijayHingerImg from './assets/team/vijay-hinger.jpg';
 import kairaChandaImg from './assets/team/kaira-chanda.jpg';
 import rishabhHingerImg from './assets/team/rishabh-hinger.png';
+import ketanHingerImg from './assets/team/ketan-hinger.jpg';
+import neelHingerImg  from './assets/team/neel-hinger.png';
+import nirajHingerImg from './assets/team/niraj-hinger.png';
 // Projects
 import irisImg        from './assets/projects/iris.jpg';
 import daffodilPostImg from './assets/projects/daffodil-post.jpg';
@@ -28,21 +32,26 @@ import orchidImg      from './assets/projects/orchid.jpg';
 import marigoldImg    from './assets/projects/marigold.png';
 import tulipImg       from './assets/projects/tulip.jpg';
 import infinityBImg   from './assets/projects/infinity-b-wing.jpg';
+import cubixImg       from './assets/projects/cubix.jpg';
 // Floor plans & brochures
 import floorPlansPdf  from './assets/docs/floor-plans-infinity.pdf';
 import daffodilBrochurePdf from './assets/docs/daffodil-heights-brochure.pdf';
+import companyProfilePdf from './assets/docs/company-profile.pdf';
 
 
 /* ─────────────── LEADERSHIP DATA ───────────────────── */
 const LEADERSHIP = [
   { name:'Mr. Gulshan R. Chanda', role:'Founder & Partner',  gen:'founders' as const, img:foundersImg,     desc:"A visionary pioneer who co-founded Chanda's Group in the late 1990s, laying the ground stone of integrity and premium craftsmanship." },
   { name:'Mr. Satish R. Chanda',  role:'Founder & Partner',  gen:'founders' as const, img:foundersImg,     desc:"Co-founder whose acute technical mastery and construction foresight defined some of Navi Mumbai's signature structures." },
-  { name:'Mr. Arun R. Chanda',    role:'Founder & Partner',  gen:'founders' as const, img:foundersImg,     desc:"Driving force behind the Group's multi-decade operational triumph, balancing foundational legacy with corporate expansion." },
+  { name:'Mr. Arun R. Chanda',    role:'Founder & Partner',  gen:'founders' as const, img:arunChandaImg,   desc:"Driving force behind the Group's multi-decade operational triumph, balancing foundational legacy with corporate expansion." },
   { name:'Mr. Vijay Hinger',      role:'Partner',             gen:'founders' as const, img:vijayHingerImg, desc:'Senior collaborator who brought immense strategic value and technical brilliance to joint development initiatives.' },
   { name:'Mr. Vishal Chanda',     role:'Partner',             gen:'nextgen'  as const, img:vishalChandaImg, desc:'Leads the second generation family expansion with modern perspectives and structural innovation.' },
   { name:'Mr. Vimal Hinger',      role:'Partner',             gen:'nextgen'  as const, img:vimalHingerImg, desc:'Evolving development frameworks, bringing immense operational rigor and customer-focused architectural integration.' },
   { name:'Kaira Chanda',          role:'Next-Gen Director',   gen:'nextgen'  as const, img:kairaChandaImg,  desc:'Committed to innovation, sustainability, and ultra-high-end responsive residential design patterns.' },
   { name:'Rishabh Hinger',        role:'Next-Gen Director',   gen:'nextgen'  as const, img:rishabhHingerImg, desc:'Focusing on smart infrastructure management, premium commercial plazas, and green architecture.' },
+  { name:'Mr. Ketan Hinger',      role:'Partner',             gen:'founders' as const, img:ketanHingerImg,  desc:'Senior partner contributing vast experience in project execution and client relationship management.' },
+  { name:'Mr. Neel Hinger',       role:'Next-Gen Director',   gen:'nextgen'  as const, img:neelHingerImg,   desc:'Bringing fresh perspectives in design innovation and sustainable urban development.' },
+  { name:'Mr. Niraj Hinger',      role:'Next-Gen Director',   gen:'nextgen'  as const, img:nirajHingerImg,  desc:'Driving digital transformation and modern construction technologies across all projects.' },
 ];
 
 /* ─────────────── HELPERS ────────────────────────────── */
@@ -213,7 +222,7 @@ function Hero({ onOpenPortal }: { onOpenPortal: () => void }) {
   const [visible, setVisible] = useState(false);
   useEffect(() => { const t = setTimeout(() => setVisible(true), 200); return () => clearTimeout(t); }, []);
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#050e1a]">
+    <section className="relative min-h-screen min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden bg-[#050e1a]">
       <div className="absolute inset-0 building-grid opacity-15" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full pointer-events-none" style={{ background:'radial-gradient(circle, rgba(45,148,150,0.08) 0%, transparent 70%)' }} />
       <div className="absolute bottom-0 left-0 w-64 h-64 pointer-events-none" style={{ background:'linear-gradient(135deg, #2d9496 0%, transparent 60%)', opacity:0.35, clipPath:'polygon(0 100%,100% 100%,0 0)' }} />
@@ -336,6 +345,14 @@ function About() {
               </div>
             ))}
           </div>
+          <div className="sr delay-4 pt-6">
+            <a href={companyProfilePdf} target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-6 py-3.5 bg-[#2d9496] text-white rounded-xl font-semibold text-sm hover:bg-[#1e5f61] transition-all group shadow-lg shadow-[#2d9496]/25">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:translate-y-0.5 transition-transform"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              Download Company Profile
+              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -450,10 +467,10 @@ const COMPLETED: Proj[] = [
   { name:'Orchid Apartments', loc:'Sector 21, Ghansoli', area:'35,000 sq. ft.', units:'38 Flats', img:orchidImg },
   { name:'Gangasagar CHS', loc:'Plot 44–46, Sector 20, Koperkhairane', area:'48,000 sq. ft.', units:'88 Flats + 23 Shops', img:'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=700' },
   { name:'Siddeshwar CHS', loc:'Plot 105, Sector 2, Koperkhairane', area:'55,000 sq. ft.', units:'79 Flats + 24 Shops', img:'https://images.pexels.com/photos/2476632/pexels-photo-2476632.jpeg?auto=compress&cs=tinysrgb&w=700' },
-  { name:'Marigold Apartments', loc:'Sector 21, Ghansoli', area:'14,000 sq. ft.', units:'Residential Flats', img:daffodilsImg },
   { name:'Sagardeep CHS', loc:'Plot 24–26, Sector 20, Koperkhairane', area:'26,000 sq. ft.', units:'48 Flats + 15 Shops', img:'https://images.pexels.com/photos/1115804/pexels-photo-1115804.jpeg?auto=compress&cs=tinysrgb&w=700' },
   { name:'Nirman CHS', loc:'Sector 13, New Panvel', area:'30,000 sq. ft.', units:'32 Flats + 16 Shops', img:'https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg?auto=compress&cs=tinysrgb&w=700' },
   { name:'Tulip Apartments', loc:'Plot 27H, Sector 11, Koperkhairane', area:'12,600 sq. ft.', units:'16 Flats', img:tulipImg },
+  { name:'Marigold Apartments', loc:'Sector 21, Ghansoli', area:'14,000 sq. ft.', units:'Residential Flats', img:marigoldImg },
   { name:'Deep CHS', loc:'Plot 44, Sector 14, Koperkhairane', area:'17,000 sq. ft.', units:'27 Flats + 7 Shops', img:'https://images.pexels.com/photos/1370704/pexels-photo-1370704.jpeg?auto=compress&cs=tinysrgb&w=700' },
   { name:'Best CHS', loc:'Plot 39, Sector 14, Koperkhairane', area:'12,000 sq. ft.', units:'20 Flats', img:orchidImg },
   { name:'Poonam CHS', loc:'Plot 40, Sector 14, Koperkhairane', area:'12,000 sq. ft.', units:'20 Flats', img:'https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg?auto=compress&cs=tinysrgb&w=700' },
@@ -465,21 +482,25 @@ const UPCOMING: Proj[] = [
   { name:'Greenfield Heights', loc:'Chembur, Mumbai', area:'4,06,000 sq. ft.', units:'Mixed Use', img:'https://images.pexels.com/photos/2476632/pexels-photo-2476632.jpeg?auto=compress&cs=tinysrgb&w=700', badge:'Mega' },
   { name:'Daffodils Heights', sub:'D Wing', loc:'Bhandup (West), Mumbai', area:'—', units:'105 Flats', img:daffodilsImg, badge:'Phase 2' },
   { name:'Jasmine Heights', loc:'Ghansoli, Navi Mumbai', area:'38,000 sq. ft.', units:'Residential', img:orchidImg },
-  { name:'Cubix Shopping Arcade', loc:'Akurdi, Pune', area:'45,000 sq. ft.', units:'Commercial', img:'https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg?auto=compress&cs=tinysrgb&w=700', badge:'Commercial' },
+  { name:'Cubix Shopping Arcade', loc:'Akurdi, Pune', area:'45,000 sq. ft.', units:'Commercial', img:cubixImg, badge:'Commercial' },
   { name:'Meridian Heights', loc:'Ghansoli, Navi Mumbai', area:'14,000 sq. ft.', units:'Residential', img:irisImg },
 ];
 
 function ProjCard({ p, big=false }: { p:Proj; big?:boolean }) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const handleMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMove = useCallback((clientX: number, clientY: number) => {
     const el = cardRef.current; if (!el) return;
     const { left, top, width, height } = el.getBoundingClientRect();
-    const x = (e.clientX-left-width/2)/(width/2); const y = (e.clientY-top-height/2)/(height/2);
+    const x = (clientX-left-width/2)/(width/2); const y = (clientY-top-height/2)/(height/2);
     el.style.transform = `perspective(800px) rotateY(${x*5}deg) rotateX(${-y*5}deg) translateZ(10px)`;
   }, []);
   const handleLeave = useCallback(() => { if (cardRef.current) cardRef.current.style.transform = ''; }, []);
   return (
-    <div ref={cardRef} onMouseMove={handleMove} onMouseLeave={handleLeave}
+    <div ref={cardRef}
+      onMouseMove={e => handleMove(e.clientX, e.clientY)}
+      onMouseLeave={handleLeave}
+      onTouchMove={e => { const t = e.touches[0]; if (t) handleMove(t.clientX, t.clientY); }}
+      onTouchEnd={handleLeave}
       className={`proj-card relative overflow-hidden rounded-2xl group cursor-pointer ${big?'h-[500px]':'h-64 sm:h-72'}`}>
       <img src={p.img} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
       <div className="absolute inset-0 bg-gradient-to-t from-[#050e1a]/90 via-[#050e1a]/30 to-transparent" />
@@ -758,6 +779,11 @@ function Footer({ onOpenPortal }: { onOpenPortal: () => void }) {
             <img src={logoPng} alt="Chanda's Group" className="h-14 sm:h-20 w-auto object-contain" style={{ filter:'drop-shadow(0 2px 8px rgba(45,148,150,0.25))' }} />
           </div>
           <p className="text-white/40 text-sm leading-relaxed mb-6">Building dreams and crafting legacies since the late 1990s.</p>
+          <a href={companyProfilePdf} target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-2.5 px-4 py-2.5 mb-6 bg-[#2d9496]/10 border border-[#2d9496]/30 hover:bg-[#2d9496]/20 rounded-xl text-[#4ecdc4] text-xs font-semibold transition-all group">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:translate-y-0.5 transition-transform"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+            <span>Download Company Profile</span>
+          </a>
           <div className="flex gap-3">
             {[{ href:'https://www.instagram.com/chandas_group?igsh=MXNjdGI5MmQ4M20xYQ%3D%3D&utm_source=qr', icon:Instagram },{ href:'https://www.linkedin.com/company/chanda-s-group/', icon:Linkedin },{ href:'mailto:info@chandasgroup.com', icon:Mail }].map(({ href,icon:Icon },i) => (
               <a key={i} href={href} target="_blank" rel="noopener noreferrer" className="w-9 h-9 bg-white/5 hover:bg-[#2d9496] rounded-lg flex items-center justify-center transition-colors border border-white/5"><Icon size={14} className="text-white/60" /></a>
@@ -845,7 +871,7 @@ export default function App() {
 
   if (listingsLoading) {
     return (
-      <div className="min-h-screen bg-[#050e1a] flex items-center justify-center">
+      <div className="min-h-screen min-h-[100dvh] bg-[#050e1a] flex items-center justify-center">
         <div className="text-center space-y-4">
           <div className="w-12 h-12 border-2 border-[#2d9496] border-t-transparent rounded-full animate-spin mx-auto" />
           <p className="text-white/40 text-sm font-mono">Loading...</p>
@@ -855,7 +881,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen min-h-[100dvh]">
       <Cursor />
       <ScrollBar />
       <Navbar onOpenPortal={() => setPortalOpen(true)} />

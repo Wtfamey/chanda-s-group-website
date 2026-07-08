@@ -21,11 +21,14 @@
     font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
   }
 
-  /* Tagline / italics: Monotype Corsiva → fallback chain */
+  /* Tagline / italics: Monotype Corsiva → iOS-friendly fallback chain */
   .font-corsiva, .tagline {
-    font-family: 'Monotype Corsiva', 'Brush Script MT', 'Palatino Linotype', cursive;
+    font-family: 'Monotype Corsiva', 'Brush Script MT', 'Apple Chancery', 'Snell Roundhand', 'Palatino Linotype', cursive;
     font-style: italic;
   }
+
+  /* Remove gray tap highlight on iOS */
+  html { -webkit-tap-highlight-color: transparent; }
 }
 
 /* ── Custom cursor ───────────────────────────────────── */
@@ -182,6 +185,7 @@
 /* ── Glass card ──────────────────────────────────────── */
 .glass {
   background: rgba(255,255,255,0.03);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(45,148,150,0.15);
 }

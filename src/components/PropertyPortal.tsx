@@ -45,7 +45,29 @@ export default function PropertyPortal({ listings, open, onClose }: Props) {
     return r;
   }, [listings, search, statusFilter, typeFilter, localityFilter, sortBy]);
 
-  useEffect(()=>{ if(open){document.body.style.overflow='hidden';}else{document.body.style.overflow='';} return()=>{document.body.style.overflow='';};}, [open]);
+  useEffect(()=>{
+    if(open){
+      const prevOverflow = document.body.style.overflow;
+      const prevPosition = document.body.style.position;
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.position = prevPosition;
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = prevOverflow;
+        window.scrollTo(0, scrollY);
+      };
+    } else {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+    }
+  }, [open]);
   useEffect(()=>{ if(detail) setImgIdx(0); }, [detail]);
 
   if (!open) return null;
@@ -109,7 +131,7 @@ export default function PropertyPortal({ listings, open, onClose }: Props) {
   );
 
   return (
-    <div className="fixed inset-0 z-[200] bg-[#050e1a] flex flex-col">
+    <div className="fixed inset-0 z-[200] bg-[#050e1a] flex flex-col" style={{ overscrollBehavior:'contain' }}>
       {/* Header */}
       <div className="flex-shrink-0 flex items-center justify-between px-6 lg:px-10 h-18 py-4 border-b border-white/5 bg-[#050e1a]/95 backdrop-blur-xl">
         <div className="flex items-center gap-3">

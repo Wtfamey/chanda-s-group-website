@@ -127,10 +127,22 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
   const formTopRef = useRef<HTMLDivElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
 
-  /* Lock body scroll */
+  /* Lock body scroll (iOS-safe) */
   useEffect(() => {
+    const prevOverflow = document.body.style.overflow;
+    const prevPosition = document.body.style.position;
+    const scrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
     document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.position = prevPosition;
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = prevOverflow;
+      window.scrollTo(0, scrollY);
+    };
   }, []);
 
   /* Restore session */
