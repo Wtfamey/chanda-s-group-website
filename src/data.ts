@@ -12,6 +12,7 @@ import irisImg        from './assets/projects/iris.jpg';
 import cubixImg       from './assets/projects/cubix.jpg';
 import floorPlansPdf  from './assets/docs/floor-plans-infinity.pdf';
 import daffodilBrochurePdf from './assets/docs/daffodil-heights-brochure.pdf';
+import daffodilsDWBrochurePdf from './assets/docs/daffodils-d-wing-brochure.pdf';
 
 // Fallback for projects without dedicated photos
 const FALLBACK_RESIDENTIAL = 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=800';
@@ -234,6 +235,7 @@ export const DEFAULT_LISTINGS: Listing[] = [
     features: ['Futuristic Glass Elevation', '105 Smart Layouts', 'Staggered Balcony Decks', 'Green Spaces', 'Automated Systems'],
     amenities: ['Swimming Pool', 'Gymnasium', 'Clubhouse', 'EV Charging', '24/7 Security'],
     images: [daffodilsImg, daffodilImg],
+    brochure: daffodilsDWBrochurePdf,
     featured: false,
     createdAt: '2024-01-08',
     badge: 'Phase 2',

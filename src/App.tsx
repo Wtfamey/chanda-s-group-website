@@ -36,6 +36,7 @@ import cubixImg       from './assets/projects/cubix.jpg';
 // Floor plans & brochures
 import floorPlansPdf  from './assets/docs/floor-plans-infinity.pdf';
 import daffodilBrochurePdf from './assets/docs/daffodil-heights-brochure.pdf';
+import daffodilsDWBrochurePdf from './assets/docs/daffodils-d-wing-brochure.pdf';
 import companyProfilePdf from './assets/docs/company-profile.pdf';
 
 
@@ -481,7 +482,7 @@ const COMPLETED: Proj[] = [
 const UPCOMING: Proj[] = [
   { name:'Infinity Tower', sub:'B Wing', loc:'Sector 2A, Koperkhairane', area:'—', units:'44 Premium Flats', img:infinityBImg, badge:'Luxury', dark:true, floorPlan:floorPlansPdf },
   { name:'Greenfield Heights', loc:'Chembur, Mumbai', area:'4,06,000 sq. ft.', units:'Mixed Use', img:'https://images.pexels.com/photos/2476632/pexels-photo-2476632.jpeg?auto=compress&cs=tinysrgb&w=700', badge:'Mega' },
-  { name:'Daffodils Heights', sub:'D Wing', loc:'Bhandup (West), Mumbai', area:'—', units:'105 Flats', img:daffodilsImg, badge:'Phase 2' },
+  { name:'Daffodils Heights', sub:'D Wing', loc:'Bhandup (West), Mumbai', area:'—', units:'105 Flats', img:daffodilsImg, badge:'Phase 2', brochure:daffodilsDWBrochurePdf },
   { name:'Jasmine Heights', loc:'Ghansoli, Navi Mumbai', area:'38,000 sq. ft.', units:'Residential', img:orchidImg },
   { name:'Meridian Heights', loc:'Ghansoli, Navi Mumbai', area:'14,000 sq. ft.', units:'Residential', img:irisImg },
 ];
