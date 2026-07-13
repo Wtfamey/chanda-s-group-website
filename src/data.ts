@@ -13,6 +13,9 @@ import cubixImg       from './assets/projects/cubix.jpg';
 import floorPlansPdf  from './assets/docs/floor-plans-infinity.pdf';
 import daffodilBrochurePdf from './assets/docs/daffodil-heights-brochure.pdf';
 import daffodilsDWBrochurePdf from './assets/docs/daffodils-d-wing-brochure.pdf';
+import orchidBrochurePdf from './assets/docs/orchid-brochure.pdf';
+import marigoldBrochurePdf from './assets/docs/marigold-brochure.pdf';
+import tulipBrochurePdf from './assets/docs/tulip-brochure.pdf';
 
 // Fallback for projects without dedicated photos
 const FALLBACK_RESIDENTIAL = 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=800';
@@ -130,6 +133,7 @@ export const DEFAULT_LISTINGS: Listing[] = [
     features: ['Prime Ghansoli Location', 'Cross Ventilation', 'Community Lobbies', 'Vastu Compliant'],
     amenities: ["Children's Play Area", '24/7 Security', 'Power Backup', 'Covered Parking', 'Common Garden'],
     images: [orchidImg],
+    brochure: orchidBrochurePdf,
     featured: false,
     createdAt: '2024-01-05',
   },
@@ -156,6 +160,7 @@ export const DEFAULT_LISTINGS: Listing[] = [
     features: ['Energy-Efficient Fittings', 'Granite Entrance Lobby', '24/7 Security', 'Near Commercial Sectors'],
     amenities: ['Power Backup', '24/7 Security', 'Covered Parking', 'Common Garden'],
     images: [marigoldImg],
+    brochure: marigoldBrochurePdf,
     featured: false,
     createdAt: '2024-01-06',
   },
@@ -182,6 +187,7 @@ export const DEFAULT_LISTINGS: Listing[] = [
     features: ['Boutique 16-Unit Building', 'Peaceful Locality', 'Efficient Layout', 'Prime Sector 11'],
     amenities: ['24/7 Security', 'Power Backup', 'Covered Parking'],
     images: [tulipImg],
+    brochure: tulipBrochurePdf,
     featured: false,
     createdAt: '2024-01-07',
   },

@@ -37,6 +37,9 @@ import cubixImg       from './assets/projects/cubix.jpg';
 import floorPlansPdf  from './assets/docs/floor-plans-infinity.pdf';
 import daffodilBrochurePdf from './assets/docs/daffodil-heights-brochure.pdf';
 import daffodilsDWBrochurePdf from './assets/docs/daffodils-d-wing-brochure.pdf';
+import orchidBrochurePdf from './assets/docs/orchid-brochure.pdf';
+import marigoldBrochurePdf from './assets/docs/marigold-brochure.pdf';
+import tulipBrochurePdf from './assets/docs/tulip-brochure.pdf';
 import companyProfilePdf from './assets/docs/company-profile.pdf';
 
 
@@ -465,13 +468,13 @@ type Proj = { name:string; sub?:string; loc:string; area:string; units:string; i
 const COMPLETED: Proj[] = [
   { name:'Infinity Tower', sub:'A Wing', loc:'Sector 2A, Koperkhairane', area:'—', units:'2 BHK & 3 BHK • 26 Storeys', img:irisImg, badge:'Flagship', dark:true, floorPlan:floorPlansPdf },
   { name:'Daffodil Heights', loc:'Sai Vihar T.P. Road, Bhandup (W)', area:'2,50,000 sq. ft.', units:'255 Flats', img:daffodilPostImg, brochure:daffodilBrochurePdf },
-  { name:'Orchid Apartments', loc:'Sector 21, Ghansoli', area:'35,000 sq. ft.', units:'38 Flats', img:orchidImg },
+  { name:'Orchid Apartments', loc:'Sector 21, Ghansoli', area:'35,000 sq. ft.', units:'38 Flats', img:orchidImg, brochure:orchidBrochurePdf },
   { name:'Gangasagar CHS', loc:'Plot 44–46, Sector 20, Koperkhairane', area:'48,000 sq. ft.', units:'88 Flats + 23 Shops', img:'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=700' },
   { name:'Siddeshwar CHS', loc:'Plot 105, Sector 2, Koperkhairane', area:'55,000 sq. ft.', units:'79 Flats + 24 Shops', img:'https://images.pexels.com/photos/2476632/pexels-photo-2476632.jpeg?auto=compress&cs=tinysrgb&w=700' },
   { name:'Sagardeep CHS', loc:'Plot 24–26, Sector 20, Koperkhairane', area:'26,000 sq. ft.', units:'48 Flats + 15 Shops', img:'https://images.pexels.com/photos/1115804/pexels-photo-1115804.jpeg?auto=compress&cs=tinysrgb&w=700' },
   { name:'Nirman CHS', loc:'Sector 13, New Panvel', area:'30,000 sq. ft.', units:'32 Flats + 16 Shops', img:'https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg?auto=compress&cs=tinysrgb&w=700' },
-  { name:'Tulip Apartments', loc:'Plot 27H, Sector 11, Koperkhairane', area:'12,600 sq. ft.', units:'16 Flats', img:tulipImg },
-  { name:'Marigold Apartments', loc:'Sector 21, Ghansoli', area:'14,000 sq. ft.', units:'Residential Flats', img:marigoldImg },
+  { name:'Tulip Apartments', loc:'Plot 27H, Sector 11, Koperkhairane', area:'12,600 sq. ft.', units:'16 Flats', img:tulipImg, brochure:tulipBrochurePdf },
+  { name:'Marigold Apartments', loc:'Sector 21, Ghansoli', area:'14,000 sq. ft.', units:'Residential Flats', img:marigoldImg, brochure:marigoldBrochurePdf },
   { name:'Cubix Shopping Arcade', loc:'Akurdi, Pune', area:'45,000 sq. ft.', units:'Commercial', img:cubixImg, badge:'Commercial' },
   { name:'Deep CHS', loc:'Plot 44, Sector 14, Koperkhairane', area:'17,000 sq. ft.', units:'27 Flats + 7 Shops', img:'https://images.pexels.com/photos/1370704/pexels-photo-1370704.jpeg?auto=compress&cs=tinysrgb&w=700' },
   { name:'Best CHS', loc:'Plot 39, Sector 14, Koperkhairane', area:'12,000 sq. ft.', units:'20 Flats', img:orchidImg },
