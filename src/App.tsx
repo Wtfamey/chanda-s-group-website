@@ -8,7 +8,7 @@ import {
 import PropertyPortal from './components/PropertyPortal';
 import AdminPanel from './components/AdminPanel';
 import { Listing } from './types';
-import { loadListingsFromSupabase, DEFAULT_LISTINGS } from './data';
+import { loadListingsFromSupabase, DEFAULT_LISTINGS, loadListings as loadLocalListings } from './data';
 import { seedListings, saveContactMessage } from './supabaseService';
 
 /* ─────────────── ASSET IMPORTS ──────────────────────── */
@@ -510,14 +510,14 @@ function ProjCard({ p, big=false, onClick }: { p:Proj; big?:boolean; onClick?:()
       <div className="absolute inset-0 bg-gradient-to-t from-[#050e1a]/90 via-[#050e1a]/30 to-transparent" />
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" style={{ background:'linear-gradient(to bottom, transparent 30%, rgba(45,148,150,0.15) 60%, transparent 90%)' }} />
       {p.badge && <div className="absolute top-4 left-4 px-3 py-1 text-xs font-bold tracking-wider uppercase text-white rounded-full" style={{ background:'linear-gradient(135deg,#2d9496,#1e5f61)' }}>{p.badge}</div>}
-      <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+      <div className="absolute bottom-0 left-0 right-0 p-6 sm:translate-y-2 sm:group-hover:translate-y-0 transition-transform duration-300">
         <div className="text-[#4ecdc4] text-xs tracking-[0.2em] uppercase mb-1 font-semibold">{p.sub||'Residential'}</div>
         <h3 className={`font-serif font-bold text-white leading-tight ${big?'text-3xl':'text-xl'}`}>{p.name}</h3>
-        <div className="flex items-center gap-2 mt-2 text-white/60 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="flex items-center gap-2 mt-2 text-white/60 text-sm sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
           <MapPin size={12} className="text-[#2d9496]" /><span>{p.loc}</span>
         </div>
-        {p.area !== '—' && <div className="flex items-center gap-4 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75"><span className="text-white/50 text-xs">{p.area}</span><span className="text-white/50 text-xs">•</span><span className="text-white/50 text-xs">{p.units}</span></div>}
-        <div className="mt-3 flex items-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        {p.area !== '—' && <div className="flex items-center gap-4 mt-2 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 delay-75"><span className="text-white/50 text-xs">{p.area}</span><span className="text-white/50 text-xs">•</span><span className="text-white/50 text-xs">{p.units}</span></div>}
+        <div className="mt-3 flex items-center gap-3 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
           <button onClick={(e) => { e.stopPropagation(); document.getElementById('contact')?.scrollIntoView({ behavior:'smooth' }); }}
             className="flex items-center gap-1.5 text-[#4ecdc4] text-sm font-semibold hover:gap-2.5 transition-all">
             Enquire <ArrowRight size={14} />
@@ -882,16 +882,22 @@ function Footer({ onOpenPortal }: { onOpenPortal: () => void }) {
 
 /* ─────────────── ROOT APP ───────────────────────────── */
 export default function App() {
-  const [listings, setListings] = useState<Listing[]>([]);
+  // Instant data from localStorage (sync), then Supabase in background
+  const [listings, setListings] = useState<Listing[]>(() => loadLocalListings());
   const [listingsLoading, setListingsLoading] = useState(true);
   const [portalOpen, setPortalOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
 
-  // Load listings from Supabase (or localStorage fallback)
+  // Try Supabase in background, update silently
   useEffect(() => {
+    const start = Date.now();
     loadListingsFromSupabase().then(data => {
-      setListings(data);
-      setListingsLoading(false);
+      if (data.length) setListings(data);
+    }).finally(() => {
+      // Show branded loading screen for at least 1.2s total for the logo animation
+      const remaining = Math.max(0, 1200 - (Date.now() - start));
+      const t = setTimeout(() => setListingsLoading(false), remaining);
+      return () => clearTimeout(t);
     });
   }, []);
 
@@ -925,10 +931,20 @@ export default function App() {
 
   if (listingsLoading) {
     return (
-      <div className="min-h-screen min-h-[100dvh] bg-[#050e1a] flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="w-12 h-12 border-2 border-[#2d9496] border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-white/40 text-sm font-mono">Loading...</p>
+      <div className="min-h-screen min-h-[100dvh] bg-[#050e1a] flex items-center justify-center relative overflow-hidden">
+        <div className="absolute inset-0 building-grid opacity-10" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none" style={{ background:'radial-gradient(circle, rgba(45,148,150,0.08) 0%, transparent 70%)' }} />
+        <div className="relative z-10 flex flex-col items-center gap-6">
+          <img src={logoPng} alt="Chanda's Group"
+            className="w-[clamp(180px,40vw,360px)] h-auto object-contain animate-loadPulse"
+            style={{ filter:'drop-shadow(0 0 40px rgba(45,148,150,0.25))' }} />
+          <div className="flex items-center gap-2">
+            {[0,1,2].map(i => (
+              <div key={i} className="w-2 h-2 rounded-full bg-[#2d9496] animate-loadDot"
+                style={{ animationDelay:`${i*0.25}s` }} />
+            ))}
+          </div>
+          <p className="text-white/20 text-xs tracking-[0.3em] uppercase font-mono animate-loadText">Dreams Abode</p>
         </div>
       </div>
     );
