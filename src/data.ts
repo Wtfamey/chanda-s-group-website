@@ -16,6 +16,8 @@ import daffodilsDWBrochurePdf from './assets/docs/daffodils-d-wing-brochure.pdf'
 import orchidBrochurePdf from './assets/docs/orchid-brochure.pdf';
 import marigoldBrochurePdf from './assets/docs/marigold-brochure.pdf';
 import tulipBrochurePdf from './assets/docs/tulip-brochure.pdf';
+import { supabase } from './supabase';
+import { fetchListings, seedListings } from './supabaseService';
 
 // Fallback for projects without dedicated photos
 const FALLBACK_RESIDENTIAL = 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=800';
@@ -323,10 +325,6 @@ export function saveListings(listings: Listing[]): void {
 export function resetListings(): void {
   localStorage.removeItem(STORAGE_KEY);
 }
-
-/* ── Supabase-based loading (primary) ──────────────────── */
-import { supabase } from './supabase';
-import { fetchListings, seedListings } from './supabaseService';
 
 let seeded = false;
 
