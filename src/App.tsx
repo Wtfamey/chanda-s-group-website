@@ -33,6 +33,7 @@ import marigoldImg    from './assets/projects/marigold.png';
 import tulipImg       from './assets/projects/tulip.jpg';
 import infinityBImg   from './assets/projects/infinity-b-wing.jpg';
 import cubixImg       from './assets/projects/cubix.jpg';
+import infinityAWingImg from './assets/projects/infinity-a-wing.jpg';
 // Floor plans & brochures
 import floorPlansPdf  from './assets/docs/floor-plans-infinity.pdf';
 import daffodilBrochurePdf from './assets/docs/daffodil-heights-brochure.pdf';
@@ -53,7 +54,7 @@ const LEADERSHIP = [
   { name:'Mr. Vimal Hinger',      role:'Partner',             gen:'nextgen'  as const, img:vimalHingerImg, desc:'Evolving development frameworks, bringing immense operational rigor and customer-focused architectural integration.' },
   { name:'Kaira Chanda',          role:'Next-Gen Director',   gen:'nextgen'  as const, img:kairaChandaImg,  desc:'Committed to innovation, sustainability, and ultra-high-end responsive residential design patterns.' },
   { name:'Rishabh Hinger',        role:'Next-Gen Director',   gen:'nextgen'  as const, img:rishabhHingerImg, desc:'Focusing on smart infrastructure management, premium commercial plazas, and green architecture.' },
-  { name:'Mr. Ketan Hinger',      role:'Partner',             gen:'founders' as const, img:ketanHingerImg,  desc:'Senior partner contributing vast experience in project execution and client relationship management.' },
+  { name:'Mr. Ketan Hinger',      role:'Next-Gen Director',   gen:'nextgen'  as const, img:ketanHingerImg,  desc:'Senior partner contributing vast experience in project execution and client relationship management.' },
   { name:'Mr. Neel Hinger',       role:'Next-Gen Director',   gen:'nextgen'  as const, img:neelHingerImg,   desc:'Bringing fresh perspectives in design innovation and sustainable urban development.' },
   { name:'Mr. Niraj Hinger',      role:'Next-Gen Director',   gen:'nextgen'  as const, img:nirajHingerImg,  desc:'Driving digital transformation and modern construction technologies across all projects.' },
 ];
@@ -306,7 +307,7 @@ function About() {
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
         <div className="sr-l relative">
           <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[300px] sm:h-[400px] lg:h-[540px]">
-            <img src={irisImg} alt="Chanda's Group Infinity Tower" className="w-full h-full object-cover" />
+            <img src={infinityAWingImg} alt="Chanda's Group Infinity Tower A Wing" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#050e1a]/60 to-transparent" />
             <div className="absolute bottom-6 sm:bottom-8 left-6 sm:left-8 right-6 sm:right-8">
               <div className="text-white/60 text-[10px] sm:text-xs tracking-[0.3em] uppercase mb-1 font-corsiva italic">Landmark Project</div>
@@ -658,28 +659,6 @@ function Team() {
             Two families. One vision. Over four decades of building landmarks that stand the test of time.
           </p>
         </div>
-
-        {/* Founders group photo — full-width hero banner */}
-        {(genFilter === 'all' || genFilter === 'founders') && (
-          <div className="sr mb-10 relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/3] sm:aspect-[21/9]">
-            <img
-              src={foundersImg}
-              alt="Chanda's Group Founders"
-              className="w-full h-full object-cover object-[50%_20%] bg-[#0a1930]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#050e1a]/70 via-transparent to-transparent pointer-events-none" />
-            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-8">
-              <div className="flex items-center gap-2 mb-2 sm:mb-3">
-                <span className="w-4 sm:w-6 h-px bg-[#4ecdc4]" />
-                <span className="text-[#4ecdc4] text-[8px] sm:text-[10px] tracking-[0.3em] uppercase font-semibold">The Visionaries</span>
-              </div>
-              <h3 className="font-serif text-sm sm:text-2xl md:text-3xl font-black text-white leading-tight">Founding Partners</h3>
-              <p className="text-white/60 text-[10px] sm:text-sm mt-1 sm:mt-2 leading-relaxed hidden sm:block">
-                Mr. Gulshan R. Chanda &nbsp;·&nbsp; Mr. Satish R. Chanda &nbsp;·&nbsp; Mr. Arun R. Chanda &nbsp;·&nbsp; Mr. Vijay Hinger
-              </p>
-            </div>
-          </div>
-        )}
 
         {/* Filter tabs */}
         <div className="sr flex justify-center gap-2 mb-10">
