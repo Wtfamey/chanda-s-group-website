@@ -9,6 +9,7 @@ import marigoldImg    from './assets/projects/marigold.png';
 import tulipImg       from './assets/projects/tulip.jpg';
 import infinityBImg   from './assets/projects/infinity-b-wing.jpg';
 import irisImg        from './assets/projects/iris.jpg';
+import infinityAWingImg from './assets/projects/infinity-a-wing.jpg';
 import cubixImg       from './assets/projects/cubix.jpg';
 import floorPlansPdf  from './assets/docs/floor-plans-infinity.pdf';
 import daffodilBrochurePdf from './assets/docs/daffodil-heights-brochure.pdf';
@@ -49,7 +50,7 @@ export const DEFAULT_LISTINGS: Listing[] = [
     ],
     features: ['26-Storey Premium Tower', 'Round Panoramic Balconies', 'Prime Metro Connectivity', '2 BHK & 3 BHK Formats', 'Elegant Entrance Deck', 'Modular Kitchen'],
     amenities: ['Swimming Pool', 'Gymnasium', 'Clubhouse', 'Jogging Track', "Children's Play Area", 'Power Backup', '24/7 Security', 'Visitor Parking'],
-    images: [irisImg, daffodilImg],
+    images: [infinityAWingImg, irisImg],
     floorPlan: floorPlansPdf,
     featured: true,
     createdAt: '2024-01-01',

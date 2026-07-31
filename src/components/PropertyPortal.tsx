@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import {
   Search, X, Grid, List, SlidersHorizontal, MapPin, ArrowRight,
-  ChevronLeft, ChevronRight, Bed, Bath, Maximize2, Phone, Send,
+  ChevronLeft, ChevronRight, Bed, Bath, Maximize2, Send,
   Check,
 } from 'lucide-react';
 import { Listing } from '../types';
@@ -24,7 +24,6 @@ export default function PropertyPortal({ listings, open, onClose }: Props) {
   const [imgIdx, setImgIdx] = useState(0);
   const [enquirySent, setEnquirySent] = useState(false);
   const [enqName, setEnqName] = useState('');
-  const [enqPhone, setEnqPhone] = useState('');
   const [enqEmail, setEnqEmail] = useState('');
 
   const localities = useMemo(()=>['All',...Array.from(new Set(listings.map(l=>l.locality)))],[listings]);
@@ -91,16 +90,16 @@ export default function PropertyPortal({ listings, open, onClose }: Props) {
           {l.carpetArea && <div className="text-white/60 text-[10px]">{l.carpetArea}</div>}
         </div>
       </div>
-      <div className="p-4">
-        <div className="flex items-center gap-1 text-white/40 text-xs mb-1"><MapPin size={10} className="text-[#2d9496]"/>{l.locality}</div>
-        <h3 className="font-serif font-bold text-white text-sm group-hover:text-[#4ecdc4] transition-colors leading-tight">{l.title}</h3>
+      <div className="p-4 sm:p-5">
+        <div className="flex items-center gap-1.5 text-white/45 text-[13px] mb-1.5"><MapPin size={11} className="text-[#2d9496]"/>{l.locality}</div>
+        <h3 className="font-serif font-bold text-white text-[15px] sm:text-base group-hover:text-[#4ecdc4] transition-colors leading-tight">{l.title}</h3>
         {/* BHK / specs row */}
-        <div className="flex items-center gap-3 mt-2 text-white/40 text-xs">
-          {l.bedrooms && <span className="flex items-center gap-1"><Bed size={11}/>{l.bedrooms} BHK</span>}
-          {l.bathrooms && <span className="flex items-center gap-1"><Bath size={11}/>{l.bathrooms}</span>}
-          {l.carpetArea && <span className="flex items-center gap-1"><Maximize2 size={11}/>{l.carpetArea}</span>}
+        <div className="flex items-center gap-3 mt-2.5 text-white/45 text-[13px]">
+          {l.bedrooms && <span className="flex items-center gap-1"><Bed size={12}/>{l.bedrooms} BHK</span>}
+          {l.bathrooms && <span className="flex items-center gap-1"><Bath size={12}/>{l.bathrooms}</span>}
+          {l.carpetArea && <span className="flex items-center gap-1"><Maximize2 size={12}/>{l.carpetArea}</span>}
         </div>
-        {l.possession && <div className="mt-2 text-[10px] text-[#c5a880] font-mono">Possession: {l.possession}</div>}
+        {l.possession && <div className="mt-2.5 text-xs text-[#c5a880] font-mono">Possession: {l.possession}</div>}
       </div>
     </div>
   );
@@ -111,20 +110,20 @@ export default function PropertyPortal({ listings, open, onClose }: Props) {
         <img src={l.images[0]||'https://images.pexels.com/photos/534151/pexels-photo-534151.jpeg?auto=compress&cs=tinysrgb&w=500'} alt={l.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
         <div className="absolute top-3 left-3"><span className={`text-[9px] font-mono px-2 py-0.5 rounded-full border ${STATUS_COLOR[l.status]}`}>{STATUS_LABEL[l.status]}</span></div>
       </div>
-      <div className="flex-grow p-5 flex flex-col justify-between">
+      <div className="flex-grow p-5 sm:p-6 flex flex-col justify-between">
         <div>
-          <div className="flex items-center gap-1 text-white/40 text-xs mb-1"><MapPin size={10} className="text-[#2d9496]"/>{l.locality} — {l.address}</div>
-          <h3 className="font-serif font-bold text-white text-base group-hover:text-[#4ecdc4] transition-colors">{l.title}</h3>
-          <p className="text-white/40 text-xs mt-1.5 line-clamp-1">{l.description[0]}</p>
+          <div className="flex items-center gap-1.5 text-white/45 text-[13px] mb-1.5"><MapPin size={11} className="text-[#2d9496]"/>{l.locality} — {l.address}</div>
+          <h3 className="font-serif font-bold text-white text-lg group-hover:text-[#4ecdc4] transition-colors">{l.title}</h3>
+          <p className="text-white/45 text-sm mt-2 leading-relaxed line-clamp-2">{l.description[0]}</p>
         </div>
-        <div className="flex flex-wrap items-center justify-between gap-3 mt-3 pt-3 border-t border-white/5">
+        <div className="flex flex-wrap items-center justify-between gap-3 mt-4 pt-3 border-t border-white/5">
           <div className="flex items-center gap-4">
-            <span className="font-serif font-black text-lg text-[#4ecdc4]">{l.price}</span>
-            {l.bedrooms && <span className="text-white/40 text-xs flex items-center gap-1"><Bed size={11}/>{l.bedrooms} BHK</span>}
-            {l.carpetArea && <span className="text-white/40 text-xs flex items-center gap-1"><Maximize2 size={11}/>{l.carpetArea}</span>}
-            {l.possession && <span className="text-[10px] text-[#c5a880] font-mono">Possession: {l.possession}</span>}
+            <span className="font-serif font-black text-xl text-[#4ecdc4]">{l.price}</span>
+            {l.bedrooms && <span className="text-white/45 text-[13px] flex items-center gap-1"><Bed size={12}/>{l.bedrooms} BHK</span>}
+            {l.carpetArea && <span className="text-white/45 text-[13px] flex items-center gap-1"><Maximize2 size={12}/>{l.carpetArea}</span>}
+            {l.possession && <span className="text-xs text-[#c5a880] font-mono">Possession: {l.possession}</span>}
           </div>
-          <span className="text-[#2d9496] text-xs flex items-center gap-1">View Details <ArrowRight size={11}/></span>
+          <span className="text-[#2d9496] text-[13px] flex items-center gap-1">View Details <ArrowRight size={12}/></span>
         </div>
       </div>
     </div>
@@ -279,17 +278,17 @@ export default function PropertyPortal({ listings, open, onClose }: Props) {
                 </div>
 
                 {/* Description */}
-                <div className="space-y-2">
-                  <h4 className="text-xs font-mono uppercase text-white/50 tracking-wider border-b border-white/5 pb-2">About this Property</h4>
-                  {detail.description.map((d,i)=><p key={i} className="text-white/60 text-sm leading-relaxed">{d}</p>)}
+                <div className="space-y-3">
+                  <h4 className="text-[13px] font-mono uppercase text-white/50 tracking-wider border-b border-white/5 pb-2">About this Property</h4>
+                  {detail.description.map((d,i)=><p key={i} className="text-white/60 text-[15px] leading-[1.85]">{d}</p>)}
                 </div>
 
                 {/* Features */}
                 {detail.features.length>0 && (
                   <div className="space-y-2">
-                    <h4 className="text-xs font-mono uppercase text-white/50 tracking-wider border-b border-white/5 pb-2">Key Features</h4>
-                    <div className="grid grid-cols-2 gap-1.5">
-                      {detail.features.map((f,i)=><div key={i} className="flex items-center gap-2 text-xs text-white/60"><span className="w-1.5 h-1.5 rounded-full bg-[#2d9496] flex-shrink-0"/>{f}</div>)}
+                    <h4 className="text-[13px] font-mono uppercase text-white/50 tracking-wider border-b border-white/5 pb-2">Key Features</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {detail.features.map((f,i)=><div key={i} className="flex items-center gap-2 text-sm text-white/60"><span className="w-1.5 h-1.5 rounded-full bg-[#2d9496] flex-shrink-0"/>{f}</div>)}
                     </div>
                   </div>
                 )}
@@ -297,23 +296,23 @@ export default function PropertyPortal({ listings, open, onClose }: Props) {
                 {/* Amenities */}
                 {detail.amenities.length>0 && (
                   <div className="space-y-2">
-                    <h4 className="text-xs font-mono uppercase text-white/50 tracking-wider border-b border-white/5 pb-2">Amenities</h4>
+                    <h4 className="text-[13px] font-mono uppercase text-white/50 tracking-wider border-b border-white/5 pb-2">Amenities</h4>
                     <div className="flex flex-wrap gap-2">
-                      {detail.amenities.map((a,i)=><span key={i} className="px-2.5 py-1 bg-[#2d9496]/10 border border-[#2d9496]/20 text-[#4ecdc4] text-xs rounded-full">{a}</span>)}
+                      {detail.amenities.map((a,i)=><span key={i} className="px-3 py-1.5 bg-[#2d9496]/10 border border-[#2d9496]/20 text-[#4ecdc4] text-[13px] rounded-full">{a}</span>)}
                     </div>
                   </div>
                 )}
 
                 {/* Tech specs */}
                 <div className="space-y-2">
-                  <h4 className="text-xs font-mono uppercase text-white/50 tracking-wider border-b border-white/5 pb-2">Specifications</h4>
-                  <div className="grid grid-cols-2 gap-3 text-xs">
-                    {detail.totalArea && <div><span className="text-white/30 block font-mono uppercase text-[10px]">Built-up Area</span><span className="text-white">{detail.totalArea}</span></div>}
-                    {detail.floors && <div><span className="text-white/30 block font-mono uppercase text-[10px]">Floors</span><span className="text-white">{detail.floors} Storeys</span></div>}
-                    {detail.flats && <div><span className="text-white/30 block font-mono uppercase text-[10px]">Total Flats</span><span className="text-white">{detail.flats}</span></div>}
-                    {detail.shops && <div><span className="text-white/30 block font-mono uppercase text-[10px]">Shops/Units</span><span className="text-white">{detail.shops}</span></div>}
-                    <div><span className="text-white/30 block font-mono uppercase text-[10px]">Type</span><span className="text-white capitalize">{detail.type}</span></div>
-                    <div><span className="text-white/30 block font-mono uppercase text-[10px]">Status</span><span className={`capitalize ${STATUS_COLOR[detail.status].split(' ')[0]}`}>{STATUS_LABEL[detail.status]}</span></div>
+                  <h4 className="text-[13px] font-mono uppercase text-white/50 tracking-wider border-b border-white/5 pb-2">Specifications</h4>
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    {detail.totalArea && <div><span className="text-white/30 block font-mono uppercase text-[11px]">Built-up Area</span><span className="text-white">{detail.totalArea}</span></div>}
+                    {detail.floors && <div><span className="text-white/30 block font-mono uppercase text-[11px]">Floors</span><span className="text-white">{detail.floors} Storeys</span></div>}
+                    {detail.flats && <div><span className="text-white/30 block font-mono uppercase text-[11px]">Total Flats</span><span className="text-white">{detail.flats}</span></div>}
+                    {detail.shops && <div><span className="text-white/30 block font-mono uppercase text-[11px]">Shops/Units</span><span className="text-white">{detail.shops}</span></div>}
+                    <div><span className="text-white/30 block font-mono uppercase text-[11px]">Type</span><span className="text-white capitalize">{detail.type}</span></div>
+                    <div><span className="text-white/30 block font-mono uppercase text-[11px]">Status</span><span className={`capitalize ${STATUS_COLOR[detail.status].split(' ')[0]}`}>{STATUS_LABEL[detail.status]}</span></div>
                   </div>
                 </div>
               </div>
@@ -326,13 +325,12 @@ export default function PropertyPortal({ listings, open, onClose }: Props) {
                     <div className="text-center py-6 space-y-2">
                       <div className="w-10 h-10 mx-auto rounded-full flex items-center justify-center" style={{background:'linear-gradient(135deg,#2d9496,#1e5f61)'}}><Check size={18} className="text-white"/></div>
                       <p className="text-white/60 text-xs">Enquiry sent! We'll contact you shortly.</p>
-                      <button onClick={()=>{setEnquirySent(false);setEnqName('');setEnqPhone('');setEnqEmail('');}} className="text-[#4ecdc4] text-xs hover:underline">Send another</button>
+                      <button onClick={()=>{setEnquirySent(false);setEnqName('');setEnqEmail('');}} className="text-[#4ecdc4] text-xs hover:underline">Send another</button>
                     </div>
                   ) : (
-                    <form onSubmit={async e=>{e.preventDefault();try{await saveContactMessage({name:enqName,email:enqEmail||'guest@example.com',phone:enqPhone,message:`Enquiry about ${detail?.title}`});}catch{}setEnquirySent(true);}} className="space-y-2.5">
+                    <form onSubmit={async e=>{e.preventDefault();try{await saveContactMessage({name:enqName,email:enqEmail||'guest@example.com',message:`Enquiry about ${detail?.title}`});}catch{}setEnquirySent(true);}} className="space-y-2.5">
                       <input type="text" placeholder="Your Name" required value={enqName} onChange={e=>setEnqName(e.target.value)} className="w-full bg-[#0a1930] text-white border border-white/10 px-3 py-2 text-xs rounded-xl focus:outline-none focus:border-[#2d9496] placeholder-white/20 transition-colors"/>
-                      <input type="tel" placeholder="Phone Number" required value={enqPhone} onChange={e=>setEnqPhone(e.target.value)} className="w-full bg-[#0a1930] text-white border border-white/10 px-3 py-2 text-xs rounded-xl focus:outline-none focus:border-[#2d9496] placeholder-white/20 transition-colors"/>
-                      <input type="email" placeholder="Email Address" value={enqEmail} onChange={e=>setEnqEmail(e.target.value)} className="w-full bg-[#0a1930] text-white border border-white/10 px-3 py-2 text-xs rounded-xl focus:outline-none focus:border-[#2d9496] placeholder-white/20 transition-colors"/>
+                      <input type="email" placeholder="Email Address" required value={enqEmail} onChange={e=>setEnqEmail(e.target.value)} className="w-full bg-[#0a1930] text-white border border-white/10 px-3 py-2 text-xs rounded-xl focus:outline-none focus:border-[#2d9496] placeholder-white/20 transition-colors"/>
                       <button type="submit" className="teal-btn w-full py-2.5 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 hover:scale-[1.02] transition-transform"><Send size={12}/><span>Send Enquiry</span></button>
                     </form>
                   )}
@@ -365,16 +363,6 @@ export default function PropertyPortal({ listings, open, onClose }: Props) {
                   </div>
                 )}
 
-                {/* Contact numbers */}
-                <div className="space-y-2">
-                  <h4 className="text-[10px] font-mono text-white/30 uppercase tracking-wider">Direct Contact</h4>
-                  {[{name:'Vishal Chanda',phone:'+91 98206 46335'},{name:'Vimal Hinger',phone:'+91 98925 60282'}].map(c=>(
-                    <a key={c.phone} href={`tel:${c.phone}`} className="flex items-center gap-3 p-3 bg-[#050e1a] rounded-xl border border-white/5 hover:border-[#2d9496]/40 transition-all group">
-                      <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{background:'rgba(45,148,150,0.15)'}}><Phone size={13} className="text-[#2d9496]"/></div>
-                      <div><div className="text-white text-xs font-semibold">{c.name}</div><div className="text-white/40 text-[10px]">{c.phone}</div></div>
-                    </a>
-                  ))}
-                </div>
               </div>
             </div>
           </div>

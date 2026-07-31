@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import {
   Menu, X, ChevronDown, ArrowRight,
-  MapPin, Phone, Mail, Send, Instagram, Linkedin,
+  MapPin, Mail, Send, Instagram, Linkedin,
   Landmark, Shield, Lightbulb, Star, Heart, Handshake,
   KeyRound,
 } from 'lucide-react';
@@ -257,7 +257,7 @@ function Hero({ onOpenPortal }: { onOpenPortal: () => void }) {
             ))}
           </div>
         </h1>
-        <p className="text-white/50 text-sm sm:text-base lg:text-lg max-w-lg mx-auto leading-relaxed mt-4 sm:mt-6 transition-all duration-700 font-corsiva text-base sm:text-xl italic px-2"
+        <p className="text-white/60 text-base sm:text-xl lg:text-2xl max-w-xl mx-auto leading-[1.8] mt-4 sm:mt-6 transition-all duration-700 font-corsiva italic px-2"
           style={{ transitionDelay:'0.8s', opacity:visible?1:0, transform:visible?'translateY(0)':'translateY(20px)' }}>
           Founded in the late 1990s by the Chanda family — over 40 years of crafting legacies.
         </p>
@@ -292,7 +292,7 @@ function Marquee() {
       <div className="marquee-track flex items-center gap-0">
         {repeated.map((item, i) => (
           <span key={i} className="flex items-center gap-6 px-6">
-            <span className="text-white font-bold text-xs tracking-[0.25em] uppercase whitespace-nowrap">{item}</span>
+            <span className="text-white font-bold text-sm tracking-[0.25em] uppercase whitespace-nowrap">{item}</span>
             <span className="w-1.5 h-1.5 rounded-full bg-white/50 flex-shrink-0" />
           </span>
         ))}
@@ -312,10 +312,10 @@ function About() {
           <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[300px] sm:h-[400px] lg:h-[540px]">
             <img src={infinityAWingImg} alt="Chanda's Group Infinity Tower A Wing" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#050e1a]/60 to-transparent" />
-            <div className="absolute bottom-6 sm:bottom-8 left-6 sm:left-8 right-6 sm:right-8">
-              <div className="text-white/60 text-[10px] sm:text-xs tracking-[0.3em] uppercase mb-1 font-corsiva italic">Landmark Project</div>
+          <div className="absolute bottom-6 sm:bottom-8 left-6 sm:left-8 right-6 sm:right-8">
+              <div className="text-white/60 text-[10px] sm:text-xs tracking-[0.3em] uppercase mb-1.5 font-corsiva italic">Landmark Project</div>
               <div className="text-white font-serif text-xl sm:text-2xl font-black uppercase tracking-wide">INFINITY TOWER</div>
-              <div className="text-[#4ecdc4] text-xs sm:text-sm">A Wing, Sector 2A, Koperkhairane</div>
+              <div className="text-[#4ecdc4] text-sm sm:text-base mt-1">A Wing, Sector 2A, Koperkhairane</div>
             </div>
           </div>
           <div className="hidden sm:block absolute -right-6 top-12 bg-white rounded-2xl shadow-2xl p-5 border border-gray-100">
@@ -328,7 +328,7 @@ function About() {
           </div>
           <div className="absolute -bottom-4 -left-4 w-28 h-28 rounded-2xl opacity-20" style={{ background:'linear-gradient(135deg,#2d9496,#4ecdc4)' }} />
         </div>
-        <div className="space-y-6">
+        <div className="space-y-7">
           <div className="sr">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-8 h-px bg-[#2d9496]" />
@@ -336,20 +336,20 @@ function About() {
             </div>
             <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-black text-[#050e1a] leading-[1.05] uppercase tracking-wide">A LEGACY BUILT ON<br /><span style={{ color:'#2d9496' }}>TRUST &amp; VISION</span></h2>
           </div>
-          <p className="sr delay-1 text-gray-600 leading-relaxed text-[15px]">
+          <p className="sr delay-1 text-gray-600 leading-[1.9] text-base sm:text-lg">
             Chanda's Group was founded in the late 1990s by four visionary brothers —{' '}
             <strong className="text-[#050e1a] font-serif font-black tracking-wide">MR. GULSHAN R. CHANDA, MR. SATISH R. CHANDA, MR. ARUN R. CHANDA,</strong>{' '}
             and <strong className="text-[#050e1a] font-serif font-black tracking-wide">MR. RAJESH R. CHANDA.</strong>{' '}
             The company has grown into one of the most trusted names in real estate, carrying forward a legacy of over 40 years built on integrity, commitment, and high-quality workmanship.
           </p>
-          <p className="sr delay-2 text-gray-600 leading-relaxed text-[15px]">
+          <p className="sr delay-2 text-gray-600 leading-[1.9] text-base sm:text-lg">
             Today, <strong className="text-[#050e1a] font-serif font-black tracking-wide">MR. VISHAL CHANDA</strong> represents the second generation, bringing fresh ideas and innovative approaches. The company was further strengthened through the <strong className="text-[#050e1a] font-serif font-black tracking-wide">HINGER BROTHERS</strong> — <strong className="text-[#050e1a] font-serif font-black tracking-wide">MR. VIJAY HINGER</strong> and <strong className="text-[#050e1a] font-serif font-black tracking-wide">MR. VIMAL HINGER.</strong>
           </p>
           <div className="sr delay-3 grid grid-cols-2 gap-4 pt-4">
             {[['20+','Projects Delivered'],['10+','Locations Served'],['40+','Years of Excellence'],['2','Families, One Vision']].map(([n,l]) => (
               <div key={l} className="p-5 rounded-2xl border border-gray-100 bg-gray-50 hover:border-[#2d9496]/30 hover:bg-teal-50/30 transition-all group">
                 <div className="font-serif font-black text-2xl text-[#2d9496] group-hover:scale-110 transition-transform origin-left">{n}</div>
-                <div className="text-gray-500 text-sm mt-0.5">{l}</div>
+                <div className="text-gray-500 text-[15px] mt-1.5">{l}</div>
               </div>
             ))}
           </div>
@@ -411,8 +411,8 @@ function Stats() {
           {[{val:40,suf:'+',lbl:'Years of Legacy',desc:'Decades of trusted craftsmanship'},{val:20,suf:'+',lbl:'Projects Delivered',desc:'Across Mumbai & Navi Mumbai'},{val:700,suf:'+',lbl:'Happy Families',desc:'Homes built with love'},{val:10,suf:'+',lbl:'Locations',desc:'Prime urban locations'}].map((s,i) => (
             <div key={i} className={`sr delay-${i+1} glass rounded-2xl p-8 text-center group`} style={{ animation:`pulse-glow ${3+i}s ${i*0.5}s ease-in-out infinite` }}>
               <StatNum val={s.val} suf={s.suf} />
-              <div className="text-white font-bold text-base mt-2">{s.lbl}</div>
-              <div className="text-white/40 text-xs mt-1">{s.desc}</div>
+              <div className="text-white font-bold text-base mt-2.5">{s.lbl}</div>
+              <div className="text-white/45 text-sm mt-1.5 leading-relaxed">{s.desc}</div>
             </div>
           ))}
         </div>
@@ -454,8 +454,8 @@ function Values() {
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110" style={{ background:'linear-gradient(135deg, #2d9496, #1e5f61)', boxShadow:'0 8px 32px rgba(45,148,150,0.3)' }}>
                   <Icon size={24} className="text-white" />
                 </div>
-                <h3 className="font-serif text-xl font-bold text-white mb-3">{t}</h3>
-                <p className="text-white/50 text-sm leading-relaxed">{d}</p>
+                <h3 className="font-serif text-xl font-bold text-white mb-3.5">{t}</h3>
+                <p className="text-white/50 text-[15px] leading-[1.85]">{d}</p>
               </div>
               <div className="absolute bottom-0 left-0 h-px w-0 group-hover:w-full transition-all duration-700 bg-gradient-to-r from-[#2d9496] to-[#4ecdc4]" />
             </div>
@@ -470,7 +470,7 @@ function Values() {
 type Proj = { name:string; sub?:string; loc:string; area:string; units:string; img:string; badge?:string; dark?:boolean; floorPlan?:string; brochure?:string };
 
 const COMPLETED: Proj[] = [
-  { name:'Infinity Tower', sub:'A Wing', loc:'Sector 2A, Koperkhairane', area:'—', units:'2 BHK & 3 BHK • 26 Storeys', img:irisImg, badge:'Flagship', dark:true, floorPlan:floorPlansPdf },
+  { name:'Infinity Tower', sub:'A Wing', loc:'Sector 2A, Koperkhairane', area:'—', units:'2 BHK & 3 BHK • 26 Storeys', img:infinityAWingImg, badge:'Flagship', dark:true, floorPlan:floorPlansPdf },
   { name:'Daffodil Heights', loc:'Sai Vihar T.P. Road, Bhandup (W)', area:'2,50,000 sq. ft.', units:'255 Flats', img:daffodilPostImg, brochure:daffodilBrochurePdf },
   { name:'Orchid Apartments', loc:'Sector 21, Ghansoli', area:'35,000 sq. ft.', units:'38 Flats', img:orchidImg, brochure:orchidBrochurePdf },
   { name:'Gangasagar CHS', loc:'Plot 44–46, Sector 20, Koperkhairane', area:'48,000 sq. ft.', units:'88 Flats + 23 Shops', img:'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=700' },
@@ -515,26 +515,26 @@ function ProjCard({ p, big=false, onClick }: { p:Proj; big?:boolean; onClick?:()
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" style={{ background:'linear-gradient(to bottom, transparent 30%, rgba(45,148,150,0.15) 60%, transparent 90%)' }} />
       {p.badge && <div className="absolute top-4 left-4 px-3 py-1 text-xs font-bold tracking-wider uppercase text-white rounded-full" style={{ background:'linear-gradient(135deg,#2d9496,#1e5f61)' }}>{p.badge}</div>}
       <div className="absolute bottom-0 left-0 right-0 p-6 sm:translate-y-2 sm:group-hover:translate-y-0 transition-transform duration-300">
-        <div className="text-[#4ecdc4] text-xs tracking-[0.2em] uppercase mb-1 font-semibold">{p.sub||'Residential'}</div>
+        <div className="text-[#4ecdc4] text-[13px] tracking-[0.2em] uppercase mb-1.5 font-semibold">{p.sub||'Residential'}</div>
         <h3 className={`font-serif font-bold text-white leading-tight ${big?'text-3xl':'text-xl'}`}>{p.name}</h3>
-        <div className="flex items-center gap-2 mt-2 text-white/60 text-sm sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
-          <MapPin size={12} className="text-[#2d9496]" /><span>{p.loc}</span>
+        <div className="flex items-center gap-2 mt-2.5 text-white/60 text-[15px] sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
+          <MapPin size={13} className="text-[#2d9496]" /><span>{p.loc}</span>
         </div>
-        {p.area !== '—' && <div className="flex items-center gap-4 mt-2 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 delay-75"><span className="text-white/50 text-xs">{p.area}</span><span className="text-white/50 text-xs">•</span><span className="text-white/50 text-xs">{p.units}</span></div>}
-        <div className="mt-3 flex items-center gap-3 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
+        {p.area !== '—' && <div className="flex items-center gap-4 mt-2.5 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 delay-75"><span className="text-white/50 text-[13px]">{p.area}</span><span className="text-white/50 text-[13px]">•</span><span className="text-white/50 text-[13px]">{p.units}</span></div>}
+        <div className="mt-4 flex items-center gap-3 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
           <button onClick={(e) => { e.stopPropagation(); document.getElementById('contact')?.scrollIntoView({ behavior:'smooth' }); }}
-            className="flex items-center gap-1.5 text-[#4ecdc4] text-sm font-semibold hover:gap-2.5 transition-all">
-            Enquire <ArrowRight size={14} />
+            className="flex items-center gap-1.5 text-[#4ecdc4] text-[15px] font-semibold hover:gap-2.5 transition-all">
+            Enquire <ArrowRight size={15} />
           </button>
           {p.floorPlan && (
             <a href={p.floorPlan} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
-              className="flex items-center gap-1 text-white/60 hover:text-white text-xs transition-colors border border-white/20 hover:border-[#2d9496]/50 px-2.5 py-1 rounded-full">
+              className="flex items-center gap-1 text-white/60 hover:text-white text-[13px] transition-colors border border-white/20 hover:border-[#2d9496]/50 px-2.5 py-1 rounded-full">
               Floor Plan
             </a>
           )}
           {p.brochure && (
             <a href={p.brochure} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
-              className="flex items-center gap-1 text-white/60 hover:text-white text-xs transition-colors border border-white/20 hover:border-[#2d9496]/50 px-2.5 py-1 rounded-full">
+              className="flex items-center gap-1 text-white/60 hover:text-white text-[13px] transition-colors border border-white/20 hover:border-[#2d9496]/50 px-2.5 py-1 rounded-full">
               Brochure
             </a>
           )}
@@ -658,7 +658,7 @@ function Team() {
             <div className="w-12 h-px bg-[#2d9496]" />
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-black text-[#050e1a]">Our Leadership</h2>
-          <p className="mt-4 text-gray-500 max-w-xl mx-auto text-sm leading-relaxed">
+          <p className="mt-5 text-gray-500 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
             Two families. One vision. Over four decades of building landmarks that stand the test of time.
           </p>
         </div>
@@ -712,11 +712,11 @@ function Team() {
                   </div>
                   {/* Info — name, designation, full bio */}
                   <div className="p-4 sm:p-5 flex-grow flex flex-col border-t border-white/5">
-                    <h4 className="font-serif font-bold text-white text-sm leading-snug group-hover:text-[#4ecdc4] transition-colors duration-300">{leader.name}</h4>
-                    <div className="mt-1.5">
-                      <span className="inline-block text-[10px] tracking-wider uppercase font-semibold text-[#4ecdc4] border-b border-[#2d9496]/30 pb-0.5">{leader.role}</span>
+                    <h4 className="font-serif font-bold text-white text-[15px] leading-snug group-hover:text-[#4ecdc4] transition-colors duration-300">{leader.name}</h4>
+                    <div className="mt-2">
+                      <span className="inline-block text-[11px] tracking-wider uppercase font-semibold text-[#4ecdc4] border-b border-[#2d9496]/30 pb-0.5">{leader.role}</span>
                     </div>
-                    {leader.desc && <p className="text-white/40 text-[11px] mt-2.5 leading-relaxed flex-grow">{leader.desc}</p>}
+                    {leader.desc && <p className="text-white/40 text-[13px] mt-3 leading-[1.8] flex-grow line-clamp-3 sm:line-clamp-none">{leader.desc}</p>}
                   </div>
                 </div>
               </div>
@@ -730,25 +730,25 @@ function Team() {
 
 /* ─────────────── CONTACT ────────────────────────────── */
 const CONTACTS = [
-  { name:'Vishal Chanda', role:'Partner', phone:'+91 98206 46335', email:'vishalchanda@chandasgroup.com' },
-  { name:'Vimal Hinger',  role:'Partner', phone:'+91 98925 60282', email:'vimal@chandasgroup.com' },
-  { name:'Vijay Hinger',  role:'Partner', phone:'+91 98925 79031', email:'vijay@chandasgroup.com' },
+  { name:'Vishal Chanda', role:'Partner', email:'vishalchanda@chandasgroup.com' },
+  { name:'Vimal Hinger',  role:'Partner', email:'vimal@chandasgroup.com' },
+  { name:'Vijay Hinger',  role:'Partner', email:'vijay@chandasgroup.com' },
 ];
 
 function Contact() {
   const ref = useRef<HTMLElement>(null);
   useScrollReveal(ref);
-  const [form, setForm] = useState({ name:'', email:'', phone:'', msg:'' });
+  const [form, setForm] = useState({ name:'', email:'', msg:'' });
   const [sent, setSent] = useState(false);
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await saveContactMessage({ name: form.name, email: form.email, phone: form.phone, message: form.msg });
+      await saveContactMessage({ name: form.name, email: form.email, message: form.msg });
     } catch (err) {
       console.error('Failed to save contact message:', err);
     }
     setSent(true);
-    setTimeout(() => { setSent(false); setForm({ name:'',email:'',phone:'',msg:'' }); }, 4000);
+    setTimeout(() => { setSent(false); setForm({ name:'',email:'',msg:'' }); }, 4000);
   };
   const inp = "w-full px-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-white/30 focus:outline-none focus:border-[#2d9496] focus:bg-[#2d9496]/5 transition-all";
   return (
@@ -759,27 +759,26 @@ function Contact() {
         <div className="sr text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-4"><div className="w-12 h-px bg-[#2d9496]" /><span className="text-[#2d9496] text-sm font-semibold tracking-[0.2em] uppercase">Get In Touch</span><div className="w-12 h-px bg-[#2d9496]" /></div>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-black text-white">Contact Us</h2>
-          <p className="mt-4 text-white/50 max-w-md mx-auto text-[15px]">Our team is always ready to assist you. Reach out through phone, email, or visit our office.</p>
+          <p className="mt-4 text-white/50 max-w-md mx-auto text-base sm:text-lg leading-relaxed">Our team is always ready to assist you. Reach out through email, or visit our office.</p>
         </div>
         <div className="grid lg:grid-cols-2 gap-10">
           <div className="sr-l space-y-5">
             <div className="glass rounded-2xl p-6 flex gap-4">
               <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background:'linear-gradient(135deg,#2d9496,#1e5f61)' }}><MapPin size={18} className="text-white" /></div>
-              <div><div className="text-white font-semibold mb-1">Office Address</div><div className="text-white/50 text-sm leading-relaxed">2nd Floor, Infinity Tower, Plot No: 12 &amp; 13,<br />Koparkhairane, Navi Mumbai – 400 709</div></div>
+              <div><div className="text-white font-semibold mb-1.5">Office Address</div><div className="text-white/50 text-[15px] leading-relaxed">2nd Floor, Infinity Tower, Plot No: 12 &amp; 13,<br />Koparkhairane, Navi Mumbai – 400 709</div></div>
             </div>
             <div className="glass rounded-2xl p-6 flex gap-4">
               <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background:'linear-gradient(135deg,#2d9496,#1e5f61)' }}><Mail size={18} className="text-white" /></div>
-              <div><div className="text-white font-semibold mb-1">General Enquiries</div><a href="mailto:info@chandasgroup.com" className="text-[#4ecdc4] hover:underline text-sm">info@chandasgroup.com</a></div>
+              <div><div className="text-white font-semibold mb-1.5">General Enquiries</div><a href="mailto:info@chandasgroup.com" className="text-[#4ecdc4] hover:underline text-[15px]">info@chandasgroup.com</a></div>
             </div>
             {CONTACTS.map((c,i) => (
               <div key={i} className="glass rounded-2xl p-6 hover:border-[#2d9496]/40 transition-all">
                 <div className="flex items-center justify-between mb-3">
-                  <div><div className="font-serif font-bold text-white">{c.name}</div><div className="text-[#4ecdc4] text-xs font-semibold tracking-wide">{c.role}</div></div>
+                  <div><div className="font-serif font-bold text-white">{c.name}</div><div className="text-[#4ecdc4] text-xs font-semibold tracking-wide mt-0.5">{c.role}</div></div>
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background:'rgba(45,148,150,0.15)' }}><span className="font-serif font-bold text-[#4ecdc4] text-sm">{c.name.split(' ').map(n=>n[0]).join('')}</span></div>
                 </div>
                 <div className="space-y-2">
-                  <a href={`tel:${c.phone}`} className="flex items-center gap-2 text-white/60 text-sm hover:text-[#4ecdc4] transition-colors"><Phone size={12} className="text-[#2d9496]" />{c.phone}</a>
-                  <a href={`mailto:${c.email}`} className="flex items-center gap-2 text-white/60 text-sm hover:text-[#4ecdc4] transition-colors"><Mail size={12} className="text-[#2d9496]" />{c.email}</a>
+                  <a href={`mailto:${c.email}`} className="flex items-center gap-2 text-white/60 text-[15px] hover:text-[#4ecdc4] transition-colors"><Mail size={13} className="text-[#2d9496]" />{c.email}</a>
                 </div>
               </div>
             ))}
@@ -798,13 +797,10 @@ function Contact() {
                 <p className="text-white/50">We'll get back to you shortly.</p>
               </div>
             ) : (
-              <form onSubmit={submit} className="space-y-4">
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div><label className="block text-white/60 text-xs font-medium tracking-wide uppercase mb-2">Full Name</label><input type="text" required value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Your name" className={inp} /></div>
-                  <div><label className="block text-white/60 text-xs font-medium tracking-wide uppercase mb-2">Phone</label><input type="tel" value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})} placeholder="+91 XXXXX XXXXX" className={inp} /></div>
-                </div>
-                <div><label className="block text-white/60 text-xs font-medium tracking-wide uppercase mb-2">Email</label><input type="email" required value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="your@email.com" className={inp} /></div>
-                <div><label className="block text-white/60 text-xs font-medium tracking-wide uppercase mb-2">Message</label><textarea required rows={5} value={form.msg} onChange={e=>setForm({...form,msg:e.target.value})} placeholder="Tell us about your requirements..." className={`${inp} resize-none`} /></div>
+              <form onSubmit={submit} className="space-y-5">
+                <div><label className="block text-white/60 text-[13px] font-medium tracking-wide uppercase mb-2">Full Name</label><input type="text" required value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Your name" className={inp} /></div>
+                <div><label className="block text-white/60 text-[13px] font-medium tracking-wide uppercase mb-2">Email</label><input type="email" required value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="your@email.com" className={inp} /></div>
+                <div><label className="block text-white/60 text-[13px] font-medium tracking-wide uppercase mb-2">Message</label><textarea required rows={5} value={form.msg} onChange={e=>setForm({...form,msg:e.target.value})} placeholder="Tell us about your requirements..." className={`${inp} resize-none`} /></div>
                 <button type="submit" className="teal-btn w-full py-4 text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform"><span>Send Enquiry</span><Send size={15} /></button>
               </form>
             )}
@@ -825,7 +821,7 @@ function Footer({ onOpenPortal }: { onOpenPortal: () => void }) {
           <div className="mb-5">
             <img src={logoPng} alt="Chanda's Group" className="h-14 sm:h-20 w-auto object-contain" style={{ filter:'drop-shadow(0 2px 8px rgba(45,148,150,0.25))' }} />
           </div>
-          <p className="text-white/40 text-sm leading-relaxed mb-6">Building dreams and crafting legacies since the late 1990s.</p>
+          <p className="text-white/40 text-[15px] leading-relaxed mb-6">Building dreams and crafting legacies since the late 1990s.</p>
           <a href={companyProfilePdf} target="_blank" rel="noopener noreferrer"
             className="inline-flex items-center gap-2.5 px-4 py-2.5 mb-6 bg-[#2d9496]/10 border border-[#2d9496]/30 hover:bg-[#2d9496]/20 rounded-xl text-[#4ecdc4] text-xs font-semibold transition-all group">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:translate-y-0.5 transition-transform"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
@@ -856,10 +852,9 @@ function Footer({ onOpenPortal }: { onOpenPortal: () => void }) {
         </div>
         <div>
           <h4 className="font-serif font-bold text-sm text-white mb-5 tracking-wide">Contact</h4>
-          <ul className="space-y-4">
-            <li className="flex gap-3"><MapPin size={14} className="mt-0.5 flex-shrink-0" style={{ color:'#2d9496' }} /><span className="text-white/40 text-sm leading-relaxed">2nd Floor, Infinity Tower,<br />Koparkhairane, Navi Mumbai</span></li>
-            <li className="flex gap-3 items-center"><Phone size={14} className="flex-shrink-0" style={{ color:'#2d9496' }} /><a href="tel:+919820646335" className="text-white/40 hover:text-[#4ecdc4] text-sm transition-colors">+91 98206 46335</a></li>
-            <li className="flex gap-3 items-center"><Mail size={14} className="flex-shrink-0" style={{ color:'#2d9496' }} /><a href="mailto:info@chandasgroup.com" className="text-white/40 hover:text-[#4ecdc4] text-sm transition-colors">info@chandasgroup.com</a></li>
+          <ul className="space-y-3">
+            <li className="flex gap-3"><MapPin size={14} className="mt-0.5 flex-shrink-0" style={{ color:'#2d9496' }} /><span className="text-white/40 text-[15px] leading-relaxed">2nd Floor, Infinity Tower,<br />Koparkhairane, Navi Mumbai</span></li>
+            <li className="flex gap-3 items-center"><Mail size={14} className="flex-shrink-0" style={{ color:'#2d9496' }} /><a href="mailto:info@chandasgroup.com" className="text-white/40 hover:text-[#4ecdc4] text-[15px] transition-colors">info@chandasgroup.com</a></li>
           </ul>
         </div>
       </div>
