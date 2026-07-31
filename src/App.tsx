@@ -14,7 +14,8 @@ import { seedListings, saveContactMessage } from './supabaseService';
 /* ─────────────── ASSET IMPORTS ──────────────────────── */
 import logoPng        from './assets/logopng.png';
 // Team — portrait-oriented
-import foundersImg    from './assets/team/founders.jpg';
+import gulshanChandaImg from './assets/team/gulshan-chanda.png';
+import satishChandaImg from './assets/team/satish-chanda.png';
 import arunChandaImg  from './assets/team/arun-chanda.jpg';
 import vishalChandaImg from './assets/team/vishal-chanda.jpg';
 import vimalHingerImg from './assets/team/vimal-hinger.jpg';
@@ -46,17 +47,18 @@ import companyProfilePdf from './assets/docs/company-profile.pdf';
 
 /* ─────────────── LEADERSHIP DATA ───────────────────── */
 const LEADERSHIP = [
-  { name:'Mr. Gulshan R. Chanda', role:'Founder & Partner',  gen:'founders' as const, img:foundersImg,     desc:"A visionary pioneer who co-founded Chanda's Group in the late 1990s, laying the ground stone of integrity and premium craftsmanship." },
-  { name:'Mr. Satish R. Chanda',  role:'Founder & Partner',  gen:'founders' as const, img:foundersImg,     desc:"Co-founder whose acute technical mastery and construction foresight defined some of Navi Mumbai's signature structures." },
-  { name:'Mr. Arun R. Chanda',    role:'Founder & Partner',  gen:'founders' as const, img:arunChandaImg,   desc:"Driving force behind the Group's multi-decade operational triumph, balancing foundational legacy with corporate expansion." },
-  { name:'Mr. Vijay Hinger',      role:'Partner',             gen:'founders' as const, img:vijayHingerImg, desc:'Senior collaborator who brought immense strategic value and technical brilliance to joint development initiatives.' },
-  { name:'Mr. Vishal Chanda',     role:'Partner',             gen:'nextgen'  as const, img:vishalChandaImg, desc:'Leads the second generation family expansion with modern perspectives and structural innovation.' },
-  { name:'Mr. Vimal Hinger',      role:'Partner',             gen:'nextgen'  as const, img:vimalHingerImg, desc:'Evolving development frameworks, bringing immense operational rigor and customer-focused architectural integration.' },
-  { name:'Kaira Chanda',          role:'Next-Gen Director',   gen:'nextgen'  as const, img:kairaChandaImg,  desc:'Committed to innovation, sustainability, and ultra-high-end responsive residential design patterns.' },
-  { name:'Rishabh Hinger',        role:'Next-Gen Director',   gen:'nextgen'  as const, img:rishabhHingerImg, desc:'Focusing on smart infrastructure management, premium commercial plazas, and green architecture.' },
-  { name:'Mr. Ketan Hinger',      role:'Next-Gen Director',   gen:'nextgen'  as const, img:ketanHingerImg,  desc:'Senior partner contributing vast experience in project execution and client relationship management.' },
-  { name:'Mr. Neel Hinger',       role:'Next-Gen Director',   gen:'nextgen'  as const, img:neelHingerImg,   desc:'Bringing fresh perspectives in design innovation and sustainable urban development.' },
-  { name:'Mr. Niraj Hinger',      role:'Next-Gen Director',   gen:'nextgen'  as const, img:nirajHingerImg,  desc:'Driving digital transformation and modern construction technologies across all projects.' },
+  { name:'Mr. Gulshan Chanda', role:'Founder & Visionary', gen:'founders' as const, img:gulshanChandaImg, desc:"The eldest of the Chanda brothers, Mr. Gulshan Chanda laid the foundation of Chanda's Group with a clear vision and entrepreneurial spirit. His foresight and leadership shaped the company's values and direction during its formative years. Though now retired, his legacy continues to inspire the organization." },
+  { name:'Mr. Satish Chanda',  role:'Founder',             gen:'founders' as const, img:satishChandaImg, desc:"Mr. Satish Chanda has been an integral part of Chanda's Group since its inception. With decades of hands-on experience and unwavering dedication, he continues to play an active role in the company's operations, ensuring the same commitment to quality and excellence that has defined the firm for over four decades." },
+  { name:'Mr. Arun Chanda',    role:'Founder',             gen:'founders' as const, img:arunChandaImg, desc:"Mr. Arun Chanda oversees the execution and management of key project sites. Known for his practical expertise and strong leadership on the ground, he has independently managed numerous projects, ensuring timely execution while upholding the company's high standards of quality." },
+  { name:'Mr. Rajesh Chanda',  role:'Founder | Principal Architect', gen:'founders' as const, img:undefined, desc:"An accomplished architect, Ar. Rajesh Chanda has been instrumental in shaping the design philosophy of Chanda's Group. He leads the architectural division through the sister firm, Rajesh RC Architects, delivering innovative, functional, and sustainable design solutions while seamlessly integrating architecture with project execution." },
+  { name:'Mr. Vijay Hinger',   role:'Partner',             gen:'founders' as const, img:vijayHingerImg, desc:"Mr. Vijay Hinger is a valued partner at Chanda's Group, bringing extensive experience from his successful background in the marble industry. With strong expertise in accounting and financial management, he plays a key role in the company's operations. His practical business insights and strategic thinking continue to contribute significantly to the group's growth and long-term vision." },
+  { name:'Mr. Vimal Hinger',   role:'Partner',             gen:'founders' as const, img:vimalHingerImg, desc:"Mr. Vimal Hinger is a partner at Chanda's Group with a strong foundation in the plywood industry. His in-depth market knowledge and understanding of customer requirements have been instrumental in the company's success. He actively oversees sales while contributing to business development, client relationships, and several other key operational functions." },
+  { name:'Mr. Vishal Chanda',  role:'Partner',             gen:'nextgen'  as const, img:vishalChandaImg, desc:"A proud representative of the second generation of Chanda's Group, Mr. Vishal Chanda is the son of the founder, Mr. Gulshan Chanda. Since his father's retirement, he has taken on a central leadership role in the organization. He is actively involved in every aspect of the business, from strategic planning and operations to project execution and client relationships." },
+  { name:'Ms. Kaira Chanda',   role:'Next-Gen Director',   gen:'nextgen'  as const, img:kairaChandaImg, desc:"Representing the third generation of the Chanda family, Ms. Kaira Chanda is the daughter of Mr. Vishal Chanda. She symbolizes the continuity of the family's legacy and the enduring values that have shaped Chanda's Group for over four decades." },
+  { name:'Mr. Rishabh Hinger', role:'Next-Gen Director',   gen:'nextgen'  as const, img:rishabhHingerImg, desc:"Mr. Rishabh Hinger, the elder son of Mr. Vimal Hinger, is part of the next generation shaping the future of Chanda's Group. Working alongside the senior leadership, he contributes to the company's continued growth while embracing the legacy and principles on which the organization was built." },
+  { name:'Mr. Ketan Hinger',   role:'Next-Gen Director',   gen:'nextgen'  as const, img:ketanHingerImg, desc:"Mr. Ketan Hinger, the younger son of Mr. Vijay Hinger, represents the emerging leadership of Chanda's Group. With a fresh perspective and a strong commitment to the family's legacy, he is actively involved in the business and its ongoing development." },
+  { name:'Mr. Neel Hinger',    role:'Next-Gen Director',   gen:'nextgen'  as const, img:neelHingerImg, desc:"Mr. Neel Hinger is the younger son of Mr. Vimal Hinger and a member of the next generation of Chanda's Group. He actively contributes to the organization, bringing enthusiasm, a progressive outlook, and a dedication to supporting the company's long-term vision and growth." },
+  { name:'Mr. Niraj Hinger',   role:'Next-Gen Director',   gen:'nextgen'  as const, img:nirajHingerImg, desc:"Mr. Niraj Hinger, the elder son of Mr. Vijay Hinger, is part of the next generation shaping the future of Chanda's Group. He is actively involved in the business, contributing to its day-to-day operations while carrying forward the entrepreneurial values and commitment to excellence established by the founding generation." },
 ];
 
 /* ─────────────── HELPERS ────────────────────────────── */
@@ -671,38 +673,49 @@ function Team() {
           ))}
         </div>
 
-        {/* Photo cards grid — 4 cols for next-gen (portrait), proper face framing */}
+        {/* Photo cards grid — 2/3/4 cols responsive, portrait photos get object-top for face */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
           {shown.map((leader, i) => {
-            // All team portraits are taller than wide — use object-top to show faces
             const isFounder = leader.gen === 'founders';
             return (
               <div key={leader.name} className={`sr delay-${Math.min(i+1,6)} group`} style={{ transitionDelay:`${i*0.07}s` }}>
                 <div className="bg-[#050e1a] rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-[#2d9496]/25 transition-all duration-500 hover:-translate-y-2 h-full flex flex-col">
-                  {/* Photo container — fixed aspect, portrait photos get object-top for face */}
-                  <div className="relative overflow-hidden bg-[#0a1930]" style={{ paddingBottom: '120%' /* 5:6 ratio — good for portrait faces */ }}>
-                    <img
-                      src={leader.img}
-                      alt={leader.name}
-                      className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-105 ${isFounder ? 'grayscale-[60%] group-hover:grayscale-0' : 'grayscale-[40%] group-hover:grayscale-0'}`}
-                      style={{ objectPosition: leader.name === 'Kaira Chanda' ? '50% 8%' : '50% 0%' }}
-                      loading="lazy"
-                    />
+                  {/* Photo container — 5:6 portrait ratio */}
+                  <div className="relative overflow-hidden bg-[#0a1930] flex-shrink-0" style={{ paddingBottom: '110%' }}>
+                    {leader.img ? (
+                      <img
+                        src={leader.img}
+                        alt={leader.name}
+                        className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-105 ${isFounder ? 'grayscale-[60%] group-hover:grayscale-0' : 'grayscale-[40%] group-hover:grayscale-0'}`}
+                        style={{ objectPosition: leader.name === 'Ms. Kaira Chanda' ? '50% 8%' : '50% 0%' }}
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3" style={{ background:'linear-gradient(160deg, #0d2340 0%, #050e1a 100%)' }}>
+                        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center font-serif font-black text-2xl sm:text-3xl text-white shadow-2xl"
+                          style={{ background:'linear-gradient(135deg,#2d9496,#1e5f61)', boxShadow:'0 12px 40px rgba(45,148,150,0.35)' }}>
+                          {leader.name.replace(/^(Mr\.|Ms\.|Mrs\.|Dr\.)\s*/i, '').split(' ').map(n => n[0]).filter(Boolean).slice(0, 2).join('')}
+                        </div>
+                        <span className="text-white/30 text-[9px] font-mono tracking-[0.25em] uppercase">Photo Coming Soon</span>
+                      </div>
+                    )}
                     {/* Dark gradient at bottom for text readability */}
                     <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#050e1a] to-transparent pointer-events-none" />
                     {/* Teal shimmer on hover */}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                       style={{ background:'linear-gradient(to bottom, transparent 60%, rgba(45,148,150,0.25) 100%)' }} />
-                    {/* Badge */}
-                    <div className="absolute top-3 left-3 px-2 py-0.5 bg-[#050e1a]/80 backdrop-blur-sm text-[9px] font-semibold border border-white/15 tracking-widest uppercase text-white rounded-full">
-                      {isFounder ? 'Founder' : 'Next-Gen'}
+                    {/* Generation badge */}
+                    <div className={`absolute top-3 left-3 px-2 py-0.5 backdrop-blur-sm text-[9px] font-semibold border border-white/15 tracking-widest uppercase text-white rounded-full ${isFounder ? 'bg-[#050e1a]/80' : 'bg-[#2d9496]/30'}`}>
+                      {isFounder ? 'Founders' : 'Next-Gen'}
                     </div>
                   </div>
-                  {/* Info */}
-                  <div className="p-4 flex-grow border-t border-white/5">
-                    <h4 className="font-serif font-bold text-white text-[13px] leading-snug group-hover:text-[#4ecdc4] transition-colors duration-300">{leader.name}</h4>
-                    <div className="text-[#4ecdc4] text-[10px] tracking-wider uppercase font-semibold mt-1">{leader.role}</div>
-                    {leader.desc && <p className="text-white/35 text-[11px] mt-2 leading-relaxed line-clamp-2">{leader.desc}</p>}
+                  {/* Info — name, designation, full bio */}
+                  <div className="p-4 sm:p-5 flex-grow flex flex-col border-t border-white/5">
+                    <h4 className="font-serif font-bold text-white text-sm leading-snug group-hover:text-[#4ecdc4] transition-colors duration-300">{leader.name}</h4>
+                    <div className="mt-1.5">
+                      <span className="inline-block text-[10px] tracking-wider uppercase font-semibold text-[#4ecdc4] border-b border-[#2d9496]/30 pb-0.5">{leader.role}</span>
+                    </div>
+                    {leader.desc && <p className="text-white/40 text-[11px] mt-2.5 leading-relaxed flex-grow">{leader.desc}</p>}
                   </div>
                 </div>
               </div>
