@@ -147,18 +147,24 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
 
   /* Restore session */
   useEffect(() => {
-    if (sessionStorage.getItem(SESSION_KEY) === 'true') {
-      setAuthed(true);
-      return;
-    }
-    // Check Supabase session
+    // Check Supabase session first if configured
     if (supabase) {
       getSession().then(session => {
-        if (session) setAuthed(true);
-        else emailRef.current?.focus();
+        if (session) {
+          setAuthed(true);
+          sessionStorage.setItem(SESSION_KEY, 'true');
+        } else {
+          sessionStorage.removeItem(SESSION_KEY);
+          emailRef.current?.focus();
+        }
       });
     } else {
-      emailRef.current?.focus();
+      // Fallback: check sessionStorage flag
+      if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+        setAuthed(true);
+      } else {
+        emailRef.current?.focus();
+      }
     }
   }, []);
 
@@ -217,11 +223,16 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
       const { fetchListings: fetchL, seedListings: seedL } = await import('../supabaseService');
       const existing = await fetchL().catch(() => []);
       if (existing.length === 0) {
-        await seedL(DEFAULT_LISTINGS).catch(() => {});
-        window.location.reload();
+        try {
+          await seedL(DEFAULT_LISTINGS);
+          window.location.reload();
+        } catch (err: any) {
+          console.error('Auto-seed failed:', err);
+          showFlash('Failed to seed default listings. Please try again.', 'error');
+        }
       }
     })();
-  }, [authed]);
+  }, [authed, showFlash]);
 
   /* ── Dashboard helpers ────────────────────────────────── */
   const filteredListings = listings
@@ -397,6 +408,8 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
       onSave(updated);
       setView('dashboard');
       showFlash(editId ? `"${saved.title}" updated successfully.` : `"${saved.title}" published.`);
+    } catch (err: any) {
+      showFlash(`Failed to save: ${err.message || 'Unknown error'}`, 'error');
     } finally {
       setSaving(false);
     }
@@ -407,27 +420,35 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
   const handleDelete = async () => {
     if (!deleteConfirm) return;
     const l = listings.find(l => l.id === deleteConfirm);
-    // Delete from Supabase
-    if (supabase) await sbDeleteListing(deleteConfirm).catch(() => {});
-    const updated = listings.filter(l => l.id !== deleteConfirm);
-    onSave(updated);
-    setDeleteConfirm(null);
-    showFlash(`"${l?.title}" removed from listings.`);
+    try {
+      // Delete from Supabase
+      if (supabase) await sbDeleteListing(deleteConfirm);
+      const updated = listings.filter(l => l.id !== deleteConfirm);
+      onSave(updated);
+      setDeleteConfirm(null);
+      showFlash(`"${l?.title}" removed from listings.`);
+    } catch (err: any) {
+      showFlash(`Failed to delete: ${err.message || 'Unknown error'}`, 'error');
+    }
   };
 
   /* Toggle featured (Supabase + local state) */
   const toggleFeatured = async (id: string) => {
     const listing = listings.find(l => l.id === id);
     if (!listing) return;
-    // Persist to Supabase
-    if (supabase) await upsertListing({ ...listing, featured: !listing.featured }).catch(() => {});
-    const updated = listings.map(l => l.id === id ? { ...l, featured: !l.featured } : l);
-    onSave(updated);
+    try {
+      // Persist to Supabase
+      if (supabase) await upsertListing({ ...listing, featured: !listing.featured });
+      const updated = listings.map(l => l.id === id ? { ...l, featured: !l.featured } : l);
+      onSave(updated);
+    } catch (err: any) {
+      showFlash(`Failed to update featured status: ${err.message || 'Unknown error'}`, 'error');
+    }
   };
 
   /* Reset */
   const handleReset = () => {
-    if (!confirm('Reset ALL listings to defaults? This cannot be undone.')) return;
+    // No confirmation here - let parent handle it to avoid double dialog
     if (onReset) onReset();
     else onSave(DEFAULT_LISTINGS);
     showFlash('Listings reset to defaults.');

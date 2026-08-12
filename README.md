@@ -8,10 +8,15 @@ Official website for **Chanda's Group** — Premium real estate across Mumbai, N
 
 ## 🔐 Admin Access
 
+**Local Development (No Supabase):**
 | Field | Value |
 |-------|-------|
 | Username | `admin` |
 | Password | `chanda@99` |
+
+**Production (Supabase Configured):**
+- Use your Supabase email and password
+- Or create a new admin account through the registration form
 
 **3 ways to open admin:**
 1. Click the small 🔑 key icon at the bottom-right corner of any page

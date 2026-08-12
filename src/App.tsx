@@ -309,8 +309,8 @@ function About() {
     <section id="about" ref={ref} className="bg-white py-16 sm:py-28 px-6 lg:px-10">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
         <div className="sr-l relative">
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[300px] sm:h-[400px] lg:h-[540px]">
-            <img src={infinityAWingImg} alt="Chanda's Group Infinity Tower A Wing" className="w-full h-full object-cover" />
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[400px] sm:h-[500px] lg:h-[650px]">
+            <img src={infinityAWingImg} alt="Chanda's Group Infinity Tower A Wing" className="w-full h-full object-cover object-top" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#050e1a]/60 to-transparent" />
           <div className="absolute bottom-6 sm:bottom-8 left-6 sm:left-8 right-6 sm:right-8">
               <div className="text-white/60 text-[10px] sm:text-xs tracking-[0.3em] uppercase mb-1.5 font-corsiva italic">Landmark Project</div>
@@ -544,13 +544,32 @@ function ProjCard({ p, big=false, onClick }: { p:Proj; big?:boolean; onClick?:()
   );
 }
 
-function Projects({ onOpenPortal }: { onOpenPortal: () => void }) {
+function Projects({ listings, onOpenPortal }: { listings: Listing[]; onOpenPortal: () => void }) {
   const [tab, setTab] = useState<'c'|'u'>('c');
   const [detail, setDetail] = useState<Proj|null>(null);
   const ref = useRef<HTMLElement>(null);
   useScrollReveal(ref);
-  const list = tab==='c' ? COMPLETED : UPCOMING;
-  const shown = list;
+  
+  // Convert CMS listings to Proj format for homepage display
+  const convertToProj = (l: Listing): Proj => ({
+    name: l.title.replace(/ – .*$/, ''), // Remove wing suffix for cleaner display
+    sub: l.wing || l.type.charAt(0).toUpperCase() + l.type.slice(1),
+    loc: l.locality,
+    area: l.totalArea || l.carpetArea || '—',
+    units: l.flats ? `${l.flats} Flats` : l.shops ? `${l.shops} Shops` : 'Residential',
+    img: l.images[0] || 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=700',
+    badge: l.badge || undefined,
+    dark: l.badge === 'Flagship' || l.badge === 'Luxury',
+    floorPlan: l.floorPlan,
+    brochure: l.brochure,
+  });
+  
+  // Filter listings by category instead of using hardcoded arrays
+  const list = listings
+    .filter(l => tab === 'c' ? l.projectCategory === 'completed' : l.projectCategory === 'upcoming')
+    .map(convertToProj);
+  
+  const shown = list.length > 0 ? list : (tab === 'c' ? COMPLETED : UPCOMING); // Fallback to hardcoded if no CMS data
   const [featured, ...rest] = shown;
 
   /* iOS-safe scroll lock for detail modal */
@@ -687,8 +706,8 @@ function Team() {
                       <img
                         src={leader.img}
                         alt={leader.name}
-                        className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-105 ${isFounder ? 'grayscale-[60%] group-hover:grayscale-0' : 'grayscale-[40%] group-hover:grayscale-0'}`}
-                        style={{ objectPosition: leader.name === 'Ms. Kaira Chanda' ? '50% 8%' : '50% 0%' }}
+                        className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${leader.name === 'Ms. Kaira Chanda' ? 'scale-100 group-hover:scale-105' : 'group-hover:scale-105'} ${isFounder ? 'grayscale-[60%] group-hover:grayscale-0' : 'grayscale-[40%] group-hover:grayscale-0'}`}
+                        style={{ objectPosition: leader.name === 'Ms. Kaira Chanda' ? '50% 45%' : '50% 0%' }}
                         loading="lazy"
                       />
                     ) : (
@@ -740,15 +759,17 @@ function Contact() {
   useScrollReveal(ref);
   const [form, setForm] = useState({ name:'', email:'', msg:'' });
   const [sent, setSent] = useState(false);
+  const [sendError, setSendError] = useState('');
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSendError('');
     try {
       await saveContactMessage({ name: form.name, email: form.email, message: form.msg });
-    } catch (err) {
-      console.error('Failed to save contact message:', err);
+      setSent(true);
+      setTimeout(() => { setSent(false); setForm({ name:'',email:'',msg:'' }); }, 4000);
+    } catch (err: any) {
+      setSendError(err.message || 'Failed to send message. Please try again.');
     }
-    setSent(true);
-    setTimeout(() => { setSent(false); setForm({ name:'',email:'',msg:'' }); }, 4000);
   };
   const inp = "w-full px-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-white/30 focus:outline-none focus:border-[#2d9496] focus:bg-[#2d9496]/5 transition-all";
   return (
@@ -798,6 +819,7 @@ function Contact() {
               </div>
             ) : (
               <form onSubmit={submit} className="space-y-5">
+                {sendError && <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm">{sendError}</div>}
                 <div><label className="block text-white/60 text-[13px] font-medium tracking-wide uppercase mb-2">Full Name</label><input type="text" required value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Your name" className={inp} /></div>
                 <div><label className="block text-white/60 text-[13px] font-medium tracking-wide uppercase mb-2">Email</label><input type="email" required value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="your@email.com" className={inp} /></div>
                 <div><label className="block text-white/60 text-[13px] font-medium tracking-wide uppercase mb-2">Message</label><textarea required rows={5} value={form.msg} onChange={e=>setForm({...form,msg:e.target.value})} placeholder="Tell us about your requirements..." className={`${inp} resize-none`} /></div>
@@ -948,7 +970,7 @@ export default function App() {
       <About />
       <Stats />
       <Values />
-      <Projects onOpenPortal={() => setPortalOpen(true)} />
+      <Projects listings={listings} onOpenPortal={() => setPortalOpen(true)} />
       <Team />
       <Contact />
       <Footer onOpenPortal={() => setPortalOpen(true)} />

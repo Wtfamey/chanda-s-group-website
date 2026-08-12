@@ -5,7 +5,6 @@ import {
   Check,
 } from 'lucide-react';
 import { Listing } from '../types';
-import { supabase } from '../supabase';
 import { saveContactMessage } from '../supabaseService';
 
 interface Props { listings: Listing[]; open: boolean; onClose: () => void; }
@@ -25,6 +24,7 @@ export default function PropertyPortal({ listings, open, onClose }: Props) {
   const [enquirySent, setEnquirySent] = useState(false);
   const [enqName, setEnqName] = useState('');
   const [enqEmail, setEnqEmail] = useState('');
+  const [enqError, setEnqError] = useState('');
 
   const localities = useMemo(()=>['All',...Array.from(new Set(listings.map(l=>l.locality)))],[listings]);
 
@@ -328,7 +328,21 @@ export default function PropertyPortal({ listings, open, onClose }: Props) {
                       <button onClick={()=>{setEnquirySent(false);setEnqName('');setEnqEmail('');}} className="text-[#4ecdc4] text-xs hover:underline">Send another</button>
                     </div>
                   ) : (
-                    <form onSubmit={async e=>{e.preventDefault();try{await saveContactMessage({name:enqName,email:enqEmail||'guest@example.com',message:`Enquiry about ${detail?.title}`});}catch{}setEnquirySent(true);}} className="space-y-2.5">
+                    <form onSubmit={async e=>{
+                      e.preventDefault();
+                      setEnqError('');
+                      try {
+                        await saveContactMessage({
+                          name: enqName,
+                          email: enqEmail || 'guest@example.com',
+                          message: `Enquiry about ${detail?.title}`
+                        });
+                        setEnquirySent(true);
+                      } catch (err: any) {
+                        setEnqError(err.message || 'Failed to send enquiry. Please try again.');
+                      }
+                    }} className="space-y-2.5">
+                      {enqError && <div className="p-2 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-xs">{enqError}</div>}
                       <input type="text" placeholder="Your Name" required value={enqName} onChange={e=>setEnqName(e.target.value)} className="w-full bg-[#0a1930] text-white border border-white/10 px-3 py-2 text-xs rounded-xl focus:outline-none focus:border-[#2d9496] placeholder-white/20 transition-colors"/>
                       <input type="email" placeholder="Email Address" required value={enqEmail} onChange={e=>setEnqEmail(e.target.value)} className="w-full bg-[#0a1930] text-white border border-white/10 px-3 py-2 text-xs rounded-xl focus:outline-none focus:border-[#2d9496] placeholder-white/20 transition-colors"/>
                       <button type="submit" className="teal-btn w-full py-2.5 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 hover:scale-[1.02] transition-transform"><Send size={12}/><span>Send Enquiry</span></button>
