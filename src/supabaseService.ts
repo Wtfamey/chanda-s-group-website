@@ -12,8 +12,6 @@ function toListing(row: any): Listing {
     projectCategory: row.project_category,
     locality: row.locality,
     address: row.address,
-    price: row.price,
-    priceValue: row.price_value,
     bedrooms: row.bedrooms,
     bathrooms: row.bathrooms,
     carpetArea: row.carpet_area,
@@ -44,8 +42,9 @@ function toDB(l: Partial<Listing>): Record<string, any> {
   if (l.projectCategory !== undefined) db.project_category = l.projectCategory;
   if (l.locality !== undefined) db.locality = l.locality;
   if (l.address !== undefined) db.address = l.address;
-  if (l.price !== undefined) db.price = l.price;
-  if (l.priceValue !== undefined) db.price_value = l.priceValue;
+  // Provide default values for price columns to satisfy NOT NULL constraint
+  db.price = 'Contact for Price';
+  db.price_value = 0;
   if (l.bedrooms !== undefined) db.bedrooms = l.bedrooms;
   if (l.bathrooms !== undefined) db.bathrooms = l.bathrooms;
   if (l.carpetArea !== undefined) db.carpet_area = l.carpetArea;
