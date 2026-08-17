@@ -6,8 +6,6 @@ export interface Listing {
   projectCategory: 'completed' | 'upcoming';
   locality: string;
   address: string;
-  price: string;           // e.g. "₹1.2 Cr" or "₹45,000/mo"
-  priceValue: number;      // numeric for sorting
   bedrooms?: number;
   bathrooms?: number;
   carpetArea?: string;     // e.g. "1,200 sq. ft."

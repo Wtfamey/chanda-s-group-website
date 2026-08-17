@@ -32,7 +32,7 @@ interface AdminPanelProps {
 }
 
 type FormErrors = Partial<Record<keyof Listing | 'images', string>>;
-type SortKey = 'title' | 'price' | 'locality' | 'status' | 'createdAt';
+type SortKey = 'title' | 'locality' | 'status' | 'createdAt';
 
 /* ── Constants ─────────────────────────────────────────── */
 const SESSION_KEY = 'chanda_admin_v2';
@@ -42,7 +42,7 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 
 const EMPTY_FORM: Omit<Listing, 'id' | 'createdAt'> = {
   title: '', type: 'apartment', status: 'for-sale', projectCategory: 'completed',
-  locality: '', address: '', price: '', priceValue: 0,
+  locality: '', address: '',
   bedrooms: 2, bathrooms: 2, carpetArea: '', totalArea: '',
   floors: undefined, flats: undefined, shops: undefined,
   possession: 'Ready to Move', wing: '',
@@ -56,9 +56,6 @@ function validateForm(form: typeof EMPTY_FORM): FormErrors {
   if (!form.title.trim()) errors.title = 'Property title is required.';
   else if (form.title.length < 3) errors.title = 'Title must be at least 3 characters.';
   if (!form.locality.trim()) errors.locality = 'Locality / area is required.';
-  if (!form.address.trim()) errors.address = 'Full address is required.';
-  if (!form.price.trim()) errors.price = 'Price is required (e.g. ₹1.8 Cr or ₹45,000/mo).';
-  if (form.description.every(d => !d.trim())) errors.description = 'At least one description paragraph is required.';
   if (form.images.length === 0) errors.images = 'At least one property photo is required.';
   return errors;
 }
@@ -245,7 +242,6 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
     .sort((a, b) => {
       let cmp = 0;
       if (sortKey === 'title') cmp = a.title.localeCompare(b.title);
-      else if (sortKey === 'price') cmp = a.priceValue - b.priceValue;
       else if (sortKey === 'locality') cmp = a.locality.localeCompare(b.locality);
       else if (sortKey === 'status') cmp = a.status.localeCompare(b.status);
       else cmp = new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
@@ -280,7 +276,7 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
     setEditId(l.id);
     setForm({
       title: l.title, type: l.type, status: l.status, projectCategory: l.projectCategory,
-      locality: l.locality, address: l.address, price: l.price, priceValue: l.priceValue,
+      locality: l.locality, address: l.address,
       bedrooms: l.bedrooms, bathrooms: l.bathrooms, carpetArea: l.carpetArea || '',
       totalArea: l.totalArea || '', floors: l.floors, flats: l.flats, shops: l.shops,
       possession: l.possession || '', wing: l.wing || '', description: l.description,
@@ -394,7 +390,6 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
       const saved: Listing = {
         id: editId || `listing-${Date.now()}`,
         ...formWithDesc,
-        priceValue: Number(String(form.priceValue).replace(/[^0-9]/g, '')) || 0,
         createdAt: editId
           ? (listings.find(l => l.id === editId)?.createdAt || new Date().toISOString())
           : new Date().toISOString(),
@@ -797,31 +792,18 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
               {formErrors.locality && <p role="alert" className="text-red-400 text-[10px] mt-1">{formErrors.locality}</p>}
             </div>
             <div className="md:col-span-7">
-              <label htmlFor="f-addr" className={label}>Full Address *</label>
+              <label htmlFor="f-addr" className={label}>Full Address</label>
               <input id="f-addr" type="text" placeholder="Sector 2A, Koperkhairane, Navi Mumbai" value={form.address}
                 onChange={e => { setForm(f => ({...f, address: e.target.value})); setFormErrors(fe => ({...fe, address: undefined})); }}
-                className={inp(formErrors.address)} required />
-              {formErrors.address && <p role="alert" className="text-red-400 text-[10px] mt-1">{formErrors.address}</p>}
+                className={inp(formErrors.address)} />
             </div>
           </div>
         </section>
 
         {/* ── PRICING & SPECS ── */}
         <section className="bg-[#0a1930] border border-white/5 rounded-2xl p-5 space-y-4">
-          <h3 className="text-[11px] font-mono text-[#c5a880] uppercase tracking-widest">Pricing & Specifications</h3>
+          <h3 className="text-[11px] font-mono text-[#c5a880] uppercase tracking-widest">Specifications</h3>
           <div className="grid md:grid-cols-12 gap-3">
-            <div className="md:col-span-4">
-              <label htmlFor="f-price" className={label}>Price Display *</label>
-              <input id="f-price" type="text" placeholder="₹1.8 Cr or ₹45,000/mo" value={form.price}
-                onChange={e => { setForm(f => ({...f, price: e.target.value})); setFormErrors(fe => ({...fe, price: undefined})); }}
-                className={inp(formErrors.price)} required />
-              {formErrors.price && <p role="alert" className="text-red-400 text-[10px] mt-1">{formErrors.price}</p>}
-            </div>
-            <div className="md:col-span-4">
-              <label htmlFor="f-pricenum" className={label}>Price in ₹ (numeric, for sorting)</label>
-              <input id="f-pricenum" type="number" min="0" placeholder="18000000" value={form.priceValue || ''}
-                onChange={e => setForm(f => ({...f, priceValue: Number(e.target.value) || 0}))} className={inp()} />
-            </div>
             <div className="md:col-span-4">
               <label htmlFor="f-poss" className={label}>Possession</label>
               <input id="f-poss" type="text" placeholder="Ready to Move / Dec 2026" value={form.possession}
@@ -868,13 +850,12 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
         {/* ── DESCRIPTION ── */}
         <section className="bg-[#0a1930] border border-white/5 rounded-2xl p-5 space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-[11px] font-mono text-[#c5a880] uppercase tracking-widest">Description *</h3>
+            <h3 className="text-[11px] font-mono text-[#c5a880] uppercase tracking-widest">Description</h3>
             <button type="button" onClick={() => setDescLines(d => [...d, ''])}
               className="text-[11px] text-[#4ecdc4] hover:underline flex items-center gap-1">
               <Plus size={11}/> Add paragraph
             </button>
           </div>
-          {formErrors.description && <p role="alert" className="text-red-400 text-xs">{formErrors.description}</p>}
           {descLines.map((line, i) => (
             <div key={i} className="flex gap-2 items-start">
               <textarea rows={2} value={line}
@@ -1039,9 +1020,6 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
                 <div className="col-span-2 flex items-center gap-1 cursor-pointer hover:text-white/60" onClick={() => handleSort('locality')}>
                   Locality <ArrowUpDown size={10}/>
                 </div>
-                <div className="col-span-2 flex items-center gap-1 cursor-pointer hover:text-white/60" onClick={() => handleSort('price')}>
-                  Price <ArrowUpDown size={10}/>
-                </div>
                 <div className="col-span-2 flex items-center gap-1 cursor-pointer hover:text-white/60" onClick={() => handleSort('status')}>
                   Status <ArrowUpDown size={10}/>
                 </div>
@@ -1068,13 +1046,11 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
                         </div>
                         <div className="min-w-0">
                           <div className="text-white text-sm font-semibold truncate">{l.title}{l.wing ? ` – ${l.wing}` : ''}</div>
-                          <div className="text-white/30 text-[10px] font-mono truncate md:hidden">{l.locality} · {l.price}</div>
+                          <div className="text-white/30 text-[10px] font-mono truncate md:hidden">{l.locality}</div>
                         </div>
                       </div>
                       {/* Locality */}
                       <div className="hidden md:block col-span-2 text-white/50 text-xs truncate">{l.locality}</div>
-                      {/* Price */}
-                      <div className="hidden md:block col-span-2 text-[#4ecdc4] text-sm font-bold font-serif">{l.price}</div>
                       {/* Status */}
                       <div className="hidden md:flex col-span-2 items-center gap-1.5">
                         <span className={`inline-block text-[9px] font-mono px-2 py-0.5 rounded-full border ${

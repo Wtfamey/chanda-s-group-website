@@ -84,11 +84,10 @@ export default function PropertyPortal({ listings, open, onClose }: Props) {
         </div>
         {/* Multi-image indicator */}
         {l.images.length>1 && <div className="absolute top-3 right-3 text-[9px] font-mono bg-black/60 text-white/60 px-1.5 py-0.5 rounded-full">+{l.images.length-1} photos</div>}
-        {/* Price */}
-        <div className="absolute bottom-3 left-3">
-          <div className="font-serif font-black text-xl text-white drop-shadow-lg">{l.price}</div>
-          {l.carpetArea && <div className="text-white/60 text-[10px]">{l.carpetArea}</div>}
-        </div>
+        {/* Area */}
+        {l.carpetArea && <div className="absolute bottom-3 left-3">
+          <div className="text-white/60 text-[10px]">{l.carpetArea}</div>
+        </div>}
       </div>
       <div className="p-4 sm:p-5">
         <div className="flex items-center gap-1.5 text-white/45 text-[13px] mb-1.5"><MapPin size={11} className="text-[#2d9496]"/>{l.locality}</div>
@@ -118,7 +117,6 @@ export default function PropertyPortal({ listings, open, onClose }: Props) {
         </div>
         <div className="flex flex-wrap items-center justify-between gap-3 mt-4 pt-3 border-t border-white/5">
           <div className="flex items-center gap-4">
-            <span className="font-serif font-black text-xl text-[#4ecdc4]">{l.price}</span>
             {l.bedrooms && <span className="text-white/45 text-[13px] flex items-center gap-1"><Bed size={12}/>{l.bedrooms} BHK</span>}
             {l.carpetArea && <span className="text-white/45 text-[13px] flex items-center gap-1"><Maximize2 size={12}/>{l.carpetArea}</span>}
             {l.possession && <span className="text-xs text-[#c5a880] font-mono">Possession: {l.possession}</span>}
