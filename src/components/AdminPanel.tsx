@@ -382,7 +382,10 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
     const errors = validateForm(formWithDesc);
     if (Object.keys(errors).length) {
       setFormErrors(errors);
-      formTopRef.current?.scrollIntoView({ behavior: 'smooth' });
+      // Only scroll if not already visible at top
+      if (formTopRef.current && formTopRef.current.getBoundingClientRect().top < 0) {
+        formTopRef.current.scrollIntoView({ behavior: 'auto', block: 'start' });
+      }
       return;
     }
     setSaving(true);
@@ -597,16 +600,14 @@ export default function AdminPanel({ listings, onSave, onClose, onReset }: Admin
       </div>
 
       {/* Validation summary */}
-      {Object.keys(formErrors).length > 0 && (
-        <div role="alert" className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl space-y-1">
-          <div className="flex items-center gap-2 text-red-400 text-sm font-semibold mb-2">
-            <AlertTriangle size={14}/> Please fix the following errors:
-          </div>
-          {Object.entries(formErrors).map(([k, v]) => (
-            <p key={k} className="text-red-300 text-xs">• {Array.isArray(v) ? v[0] : v}</p>
-          ))}
+      <div role="alert" className={`p-4 bg-red-500/10 border border-red-500/30 rounded-xl space-y-1 transition-all ${Object.keys(formErrors).length > 0 ? 'opacity-100 min-h-[60px]' : 'opacity-0 min-h-[60px] pointer-events-none'}`}>
+        <div className="flex items-center gap-2 text-red-400 text-sm font-semibold mb-2">
+          <AlertTriangle size={14}/> Please fix the following errors:
         </div>
-      )}
+        {Object.entries(formErrors).map(([k, v]) => (
+          <p key={k} className="text-red-300 text-xs">• {Array.isArray(v) ? v[0] : v}</p>
+        ))}
+      </div>
 
       <form onSubmit={handleSave} className="space-y-5" noValidate>
         {/* ── IMAGES ── */}
